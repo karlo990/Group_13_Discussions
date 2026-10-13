@@ -217,6 +217,7 @@ button.li:hover { background: var(--tint); }
 .post .replies .post { padding: 8px 0 8px 12px; border-bottom: 0; grid-template-columns: 26px minmax(0, 1fr); }
 .post .replies .av { width: 26px; height: 26px; }
 .tagref { font-family: var(--f-mono); font-size: 11.5px; color: var(--nust); background: var(--tint); padding: 1px 6px; border-radius: 4px; border: 0; cursor: pointer; }
+.utt .utterances { max-width: none; }
 .notice { padding: 10px 16px; font-size: 13px; color: var(--muted); background: var(--gold-soft); border-bottom: 1px solid var(--rule); }
 
 /* reader */
@@ -450,18 +451,26 @@ function treeNode() {
 }
 function githubDiscuss(course, tag) {
   const co = courseById(course) || COURSES[0];
-  const label = co.code + (tag && tag !== 'all' && tag !== 'general' ? ' · ' + tagLabel(tag) : '');
-  return el('div', { class: 'composer' },
-    el('p', { style: 'margin:0;font-size:14px' }, 'On this copy of the board, Group 13 talks it through on GitHub. Each question is an issue in the repo; reply in its comments.'),
+  const term = course === 'home' ? 'Group 13 · General' : co.code + ' · ' + (tag && tag !== 'all' && tag !== 'general' ? tagLabel(tag) : 'General');
+  const wrap = el('div', { class: 'composer' },
     el('div', { class: 'row' },
-      el('a', { class: 'btn primary', href: issueUrl('[' + label + '] '), target: '_blank', rel: 'noopener' }, ico('chat'), 'Ask about ' + label),
-      el('span', { style: 'display:flex;gap:6px;flex-wrap:wrap' },
-        el('a', { class: 'btn', href: REPO + '/issues', target: '_blank', rel: 'noopener' }, 'All threads'),
-        el('a', { class: 'btn ghost', href: BOARD, target: '_blank', rel: 'noopener' }, 'Live board on Claude'))));
+      el('p', { style: 'margin:0;font-size:13.5px;color:var(--muted);flex:1 1 260px' }, 'Thread: ' + term + '. Sign in with GitHub to comment; every thread is saved as an issue in the Group 13 repo.'),
+      el('a', { class: 'btn ghost', href: REPO + '/issues', target: '_blank', rel: 'noopener' }, 'All threads')));
+  const slot = el('div', { class: 'utt', style: 'min-height:120px' });
+  const sc = document.createElement('script');
+  sc.src = 'https://utteranc.es/client.js'; sc.async = true; sc.crossOrigin = 'anonymous';
+  sc.setAttribute('repo', 'karlo990/Group_13_Discussions');
+  sc.setAttribute('issue-term', term);
+  sc.setAttribute('label', 'discussion');
+  const dark = document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  sc.setAttribute('theme', dark ? 'github-dark' : 'github-light');
+  slot.append(sc);
+  wrap.append(slot);
+  return wrap;
 }
 function fillLatest(box) {
   box.replaceChildren();
-  if (!cap.db) { box.append(githubDiscuss('scs1101', 'all')); return; }
+  if (!cap.db) { box.append(githubDiscuss('home', 'all')); return; }
   const all = []; for (const c of COURSES) posts[c.id].forEach(p => all.push(Object.assign({ course: c.id }, p)));
   all.sort((a, b) => (b.at || 0) - (a.at || 0));
   const top = all.filter(p => !p.re).slice(0, 6);
@@ -775,7 +784,7 @@ async function openReader(o) {
       el('div', { class: 'grpb' },
         o.paper ? btn('Question paper', () => openReader({ file: o.paper, title: o.title.replace(/^Solution Book \d+/, 'Question paper'), sub: o.sub, course: o.course, tag: o.tag }), '', 'paper') : null,
         canSave() ? btn('Save', () => saveFile(o.file, o.file.split('/').pop()), '', 'save') : null,
-        cap.db ? btn('Discuss', discuss, 'primary', 'chat') : el('a', { class: 'btn primary', href: issueUrl('[' + o.title + '] '), target: '_blank', rel: 'noopener' }, ico('chat'), 'Discuss'))),
+        (cap.db || STANDALONE) ? btn('Discuss', discuss, 'primary', 'chat') : null)),
     scroll);
   scroll.focus({ preventScroll: true });
   function currentPage() {

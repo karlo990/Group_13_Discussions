@@ -6,7 +6,7 @@ This is Group 13's study board for SCS 1101 *Introduction to Computer Science an
 
 ## Open the board
 
-- **Website:** open `index.html`, or the GitHub Pages link once Pages is switched on (Settings → Pages → Deploy from branch → `main` / root).
+- **Website:** https://group13-discussions-page.vercel.app (or open `index.html`)
 - **Live board on Claude** (discussion saved inside the page): https://claude.ai/artifact/Jh8SV3p4yi23XvUhJGaYU4
 
 How to move around the board:
@@ -15,7 +15,9 @@ How to move around the board:
 
 ## Discuss
 
-Every question is a GitHub **Issue**. Start the title with the course and module, for example `[SCS 1101 · Module 9] Bubble sort passes`. The **Ask** buttons on the board fill this in for you. Answer each other in the issue comments.
+Every course and module page has its own comment thread, powered by [Utterances](https://utteranc.es). Sign in with GitHub and comment on the page. Each thread is saved as a GitHub **Issue** here (for example `SCS 1101 · Module 9`), labelled `discussion`.
+
+**One-time setup (repo owner):** install the Utterances app on this repo at https://github.com/apps/utterances. Choose "Only select repositories" and pick `Group_13_Discussions`. Until then, the comment boxes show an install error.
 
 ## What's in the repo
 
