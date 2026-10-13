@@ -3,8 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="icon" href="img/crest.png">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Group 13 Study Board</title>
+<meta name="description" content="NUST Civil & Water Engineering, Year I Semester I: Group 13's notes, solved past papers and discussion.">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121A28" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Group 13">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:title" content="Group 13 Study Board">
+<meta property="og:description" content="Notes, solved past papers and discussion for NUST Civil & Water Engineering, Year I.">
+<meta property="og:image" content="img/icon-512.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <title>Group 13 Study Board</title>
@@ -54,6 +68,8 @@
 
 * { box-sizing: border-box; }
 html, body { background: var(--bg); }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { -webkit-tap-highlight-color: transparent; }
 body { color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6; margin: 0; -webkit-font-smoothing: antialiased; }
 a { color: var(--brand); }
 button { font: inherit; color: inherit; }
@@ -66,7 +82,9 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; lette
 .bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
 .bar-in { max-width: 1180px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); flex: none; }
-.brand img { width: 26px; height: 32px; object-fit: contain; }
+.brand img { width: 26px; height: 33px; object-fit: contain; }
+.back { display: none; align-items: center; gap: 2px; color: var(--brand); font-weight: 600; font-size: 15px; text-decoration: none; margin-left: -6px; padding: 4px 6px; border-radius: 10px; }
+.back svg { width: 22px; height: 22px; }
 .brand b { font-family: var(--f-display); font-weight: 800; font-size: 19px; letter-spacing: -.01em; }
 .brand b span { color: var(--gold); }
 .crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; min-width: 0; font-size: 13px; color: var(--muted); }
@@ -79,14 +97,17 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; lette
 .hero { position: relative; overflow: hidden; color: var(--hero-ink); background:
   radial-gradient(600px 300px at 88% -10%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 70%),
   linear-gradient(160deg, var(--hero-2), var(--hero) 62%); }
-.hero::after { content: ""; position: absolute; right: -40px; bottom: -60px; width: 300px; height: 370px; background: url("img/crest.png") center / contain no-repeat; opacity: .12; filter: grayscale(1) invert(1); mix-blend-mode: screen; pointer-events: none; }
-.hero-in { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 34px 30px; display: grid; gap: 18px; }
+.hero::after { content: ""; position: absolute; right: -30px; bottom: -70px; width: 260px; height: 330px; background: url("img/crest-hd.png") center / contain no-repeat; opacity: .08; filter: grayscale(1) brightness(1.8); pointer-events: none; }
+.hero.home::after { display: none; }
+.emblem { width: 112px; height: auto; filter: drop-shadow(0 10px 24px rgba(0,0,0,.35)); justify-self: end; }
+.emblem-wrap { display: grid; place-items: center; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--hero-ink) 16%, transparent), transparent); }
+.hero-in { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 26px 24px; display: grid; gap: 16px; }
 .hero .eyebrow { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--hero-muted); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
 .hero .eyebrow .pill { border: 1px solid color-mix(in srgb, var(--hero-ink) 28%, transparent); padding: 2px 10px; border-radius: 999px; color: var(--hero-ink); letter-spacing: .08em; }
-.hero h1 { font-size: clamp(30px, 5vw, 50px); font-weight: 800; line-height: 1.02; color: var(--hero-ink); }
+.hero h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; line-height: 1.02; color: var(--hero-ink); }
 .hero p.lead { margin: 0; color: var(--hero-muted); font-size: 16px; max-width: 60ch; }
-.hero-top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 22px; align-items: center; }
-.big13 { font-family: var(--f-display); font-weight: 800; font-size: clamp(84px, 13vw, 148px); line-height: .8; letter-spacing: -.05em; color: var(--gold); text-shadow: 0 10px 40px rgba(0,0,0,.25); }
+.hero-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 22px; align-items: center; }
+.big13 { font-family: var(--f-display); font-weight: 800; font-size: clamp(72px, 9vw, 112px); line-height: .8; letter-spacing: -.05em; color: var(--gold); text-shadow: 0 10px 40px rgba(0,0,0,.25); }
 .stats { display: flex; flex-wrap: wrap; gap: 10px; }
 .stat { background: color-mix(in srgb, var(--hero-ink) 9%, transparent); border: 1px solid color-mix(in srgb, var(--hero-ink) 16%, transparent); border-radius: 12px; padding: 9px 14px; min-width: 120px; }
 .stat .k { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--hero-muted); }
@@ -94,7 +115,7 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; lette
 .stat .v.small { font-size: 15px; font-family: var(--f-body); font-weight: 600; line-height: 1.5; }
 .hero .code { font-family: var(--f-mono); font-weight: 600; font-size: 13px; color: var(--gold); letter-spacing: .04em; }
 .hero-mod { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; }
-.hero-mod .no { font-family: var(--f-display); font-weight: 800; font-size: clamp(64px, 10vw, 104px); line-height: .85; color: var(--gold); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.hero-mod .no { font-family: var(--f-display); font-weight: 800; font-size: clamp(56px, 7vw, 84px); line-height: .85; color: var(--gold); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .abar { display: flex; height: 34px; border-radius: 10px; overflow: hidden; gap: 2px; background: color-mix(in srgb, var(--hero-ink) 14%, transparent); }
 .abar > div { min-width: 0; display: flex; align-items: center; padding: 0 10px; font-size: 12px; font-weight: 600; overflow: hidden; white-space: nowrap; }
 .abar .ex { background: var(--hero-ink); color: var(--hero); }
@@ -115,7 +136,8 @@ main > *, .sec > *, .two > * { min-width: 0; }
 .courses { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
 .course { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); text-decoration: none; color: var(--ink); display: grid; grid-template-rows: auto 1fr auto; gap: 10px; padding: 18px; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; overflow: hidden; }
 .course::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--c, var(--brand)); }
-.course:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--line-strong); }
+@media (hover: hover) { .course:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--line-strong); } }
+.course:active, .mod:active, button.li:active, .lrow:active { transform: scale(.985); }
 .course .top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
 .badge { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 15px; color: #fff; background: var(--c, var(--brand)); flex: none; }
 .course .code { font-family: var(--f-mono); font-weight: 600; font-size: 13px; color: var(--muted); }
@@ -159,7 +181,7 @@ main > *, .sec > *, .two > * { min-width: 0; }
 /* module cards */
 .mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 .mod { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 12px; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: var(--shadow-sm); transition: transform .16s ease, box-shadow .16s ease, border-color .16s; }
-.mod:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--line-strong); }
+@media (hover: hover) { .mod:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--line-strong); } }
 .mod .no { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 18px; color: var(--brand); background: var(--tint); font-variant-numeric: tabular-nums; }
 .mod .body { display: grid; gap: 8px; align-content: start; min-width: 0; }
 .mod h3 { font-size: 15.5px; font-weight: 700; line-height: 1.25; }
@@ -248,7 +270,6 @@ footer.foot { max-width: 1180px; margin: 0 auto; padding: 18px 16px 40px; color:
 
 @media (max-width: 820px) {
   .hero-in { padding-block: 26px 24px; }
-  .hero-top { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .pack { grid-template-columns: minmax(0, 1fr); }
   .pack > div + div { border-left: 0; border-top: 1px solid var(--line); }
   .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -260,18 +281,85 @@ footer.foot { max-width: 1180px; margin: 0 auto; padding: 18px 16px 40px; color:
   .stat { min-width: 0; flex: 1 1 40%; }
   .hero::after { width: 200px; height: 250px; right: -50px; bottom: -40px; }
 }
+
+#pack-sec { scroll-margin-top: 70px; }
+/* bottom tab bar (phones) */
+.tabbar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px)); background: color-mix(in srgb, var(--surface) 86%, transparent); backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px); border-top: 1px solid var(--line); }
+.tabbar a { display: grid; justify-items: center; gap: 2px; padding: 5px 0 3px; font-size: 10.5px; font-weight: 600; color: var(--muted); text-decoration: none; border-radius: 12px; min-width: 0; }
+.tabbar a span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tabbar a svg { width: 24px; height: 24px; }
+.tabbar a[aria-current="page"] { color: var(--brand); }
+.tabbar a[aria-current="page"] svg { stroke-width: 2.3; }
+.tabbar a:active { background: var(--tint); }
+
+@media (max-width: 720px) {
+  body { font-size: 15px; }
+  .bar-in { padding: 8px 14px; gap: 8px; min-height: 50px; }
+  .crumbs { display: none; }
+  .back { display: inline-flex; }
+  .bar.sub .brand b { display: none; }
+  .bar.sub .brand { margin-left: auto; order: 2; }
+  .brand b { font-size: 17px; }
+  .hero-in { padding-block: 18px 20px; gap: 14px; }
+  .hero-top { grid-template-columns: auto minmax(0, 1fr); gap: 14px; }
+  .emblem-wrap { display: none; }
+  .big13 { font-size: 66px; }
+  .hero h1 { font-size: 25px; line-height: 1.08; }
+  .hero p.lead { font-size: 14px; line-height: 1.5; }
+  .hero .eyebrow { font-size: 10px; gap: 4px 8px; letter-spacing: .08em; }
+  .hero-top .lead { display: none; }
+  .hero .lead.m { display: block !important; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .stat { padding: 7px 8px; min-width: 0; border-radius: 11px; }
+  .stat .k { font-size: 8.5px; letter-spacing: .05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stat .v { font-size: 17px; }
+  .stat .v.small { font-size: 11.5px; line-height: 1.35; }
+  .hero-mod { gap: 12px; }
+  .hero-mod .no { font-size: 54px; }
+  .meta { gap: 6px; }
+  .meta > div { padding: 7px 10px; border-radius: 10px; }
+  .meta .v { font-size: 13px; }
+  main { padding-block: 20px calc(96px + env(safe-area-inset-bottom, 0px)); gap: 26px; }
+  footer.foot { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+  .tabbar { display: grid; }
+  .sec { gap: 10px; }
+  .sec-h h2 { font-size: 19px; }
+  .sec-h p { font-size: 12.5px; }
+  .courses { gap: 10px; }
+  .course { padding: 14px; gap: 8px; border-radius: 14px; }
+  .course h3 { font-size: 17px; }
+  .badge { width: 38px; height: 38px; border-radius: 11px; font-size: 13.5px; }
+  .mods { gap: 8px; }
+  .mod { padding: 12px; grid-template-columns: 40px minmax(0, 1fr); border-radius: 13px; }
+  .mod .no { width: 40px; height: 40px; font-size: 16px; border-radius: 11px; }
+  .panel { border-radius: 14px; }
+  .lrow { padding: 12px 14px; gap: 10px; }
+  .lrow .acts .btn { padding: 7px 11px; font-size: 13px; }
+  .li { padding: 11px 14px; }
+  .pack > div { padding: 16px; }
+  .rbar { padding-inline: 8px; gap: 6px; }
+  .rbar .grpb .btn { padding: 7px 10px; }
+}
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
 <header class="bar">
   <div class="bar-in">
-    <a class="brand" href="#home" aria-label="Group 13 home"><img src="img/crest.png" alt="NUST crest"><b>GROUP <span>13</span></b></a>
+    <a class="back" id="back" href="#home" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span id="back-label">Back</span></a>
+    <a class="brand" href="#home" aria-label="Group 13 home"><img src="img/crest-hd.png" alt="NUST crest"><b>GROUP <span>13</span></b></a>
     <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
   </div>
 </header>
 <section id="hero" class="hero" aria-label="Overview"></section>
 <main id="app"></main>
 <footer class="foot"><span>Group 13 · Civil &amp; Water Engineering · NUST Faculty of Engineering</span><span>Year I · Semester I · prepared October 2026</span></footer>
+<nav class="tabbar" id="tabbar" aria-label="Sections">
+  <a href="#home" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+  <a href="#scs1101" data-tab="scs1101"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg><span>SCS 1101</span></a>
+  <a href="#ecw1102" data-tab="ecw1102"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l18-18M7 21h14V7M10 21v-3M14 21v-5M18 21v-3"/></svg><span>Drawing</span></a>
+  <a href="#comm" data-tab="comm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg><span>Comms</span></a>
+  <a href="#pack" data-tab="pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span>Pack</span></a>
+</nav>
 <div id="reader" class="reader" hidden></div>
 <div id="toast" class="toast" hidden role="status"></div>
 
@@ -387,7 +475,7 @@ function route() {
   if (m && courseById(m[1])) return { view: m[2] ? 'module' : 'course', course: m[1], mod: m[2] ? +m[2] : null };
   return { view: 'home' };
 }
-window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+window.addEventListener('hashchange', () => { if (location.hash !== '#pack') window.scrollTo(0, 0); render(); });
 
 function crumbs(r) {
   const c = $('#crumbs'); c.replaceChildren();
@@ -398,13 +486,23 @@ function crumbs(r) {
 }
 
 let currentDiscussion = null; // {course, filter, mount}
+function chrome(r) {
+  const back = $('#back'), lab = $('#back-label');
+  if (r.view === 'home') back.hidden = true;
+  else { back.hidden = false; if (r.view === 'course') { back.href = '#home'; lab.textContent = 'Home'; } else { back.href = '#' + r.course; lab.textContent = codeOf(courseById(r.course)); } }
+  $('.bar').classList.toggle('sub', r.view !== 'home');
+  const active = location.hash === '#pack' ? 'pack' : (r.course || 'home');
+  document.querySelectorAll('#tabbar a').forEach(a => { if (a.dataset.tab === active) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('#hero').classList.toggle('home', r.view === 'home');
+}
 function render() {
-  const r = route(); crumbs(r);
+  const r = route(); crumbs(r); chrome(r);
   const app = $('#app'); app.replaceChildren(); $('#hero').replaceChildren();
   currentDiscussion = null;
   if (r.view === 'home') renderHome(app);
   else if (r.view === 'course') renderCourse(app, courseById(r.course));
   else renderModule(app, courseById(r.course), MODULES.find(m => m.no === r.mod) || MODULES[0]);
+  if (location.hash === '#pack') requestAnimationFrame(() => { const p = $('#pack-sec'); if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 }
 
 /* ---------------- home ---------------- */
@@ -416,11 +514,13 @@ function renderHome(app) {
       el('div', { style: 'display:grid;gap:10px' },
         el('div', { class: 'eyebrow' }, el('span', {}, 'NUST · Faculty of Engineering'), el('span', { class: 'pill' }, 'Civil & Water')),
         el('h1', {}, 'Group 13 Study Board'),
-        el('p', { class: 'lead' }, 'Every course for this phase in one place. Pick a course, open a module, read the notes and the solved past papers, and talk it through with the group.'))),
+        el('p', { class: 'lead' }, 'Every course for this phase in one place. Pick a course, open a module, read the notes and the solved past papers, and talk it through with the group.')),
+      el('div', { class: 'emblem-wrap' }, el('img', { class: 'emblem', src: 'img/crest-hd.png', alt: 'NUST crest' }))),
+    el('p', { class: 'lead m', hidden: true }, 'Pick a course, open a module, read the notes and solved papers, and talk it through with the group.'),
     el('div', { class: 'stats' },
       stat('Phase', 'Year I · Semester I', true),
       stat('Courses', String(COURSES.length)),
-      stat('Solved papers', String(BOOKS.length)),
+      stat('Papers', String(BOOKS.length)),
       stat(STANDALONE ? 'Discussion' : 'Posts', cap.db ? String(totalPosts()) : (STANDALONE ? 'Open' : '—'), false, 'tb-posts')));
 
   const cs = el('div', { class: 'courses' });
@@ -444,7 +544,7 @@ function renderHome(app) {
         canSave() ? (() => { const b = btn('Download study pack (.zip, about 13 MB)', () => saveZip(b), 'gold', 'save'); return b; })() : el('span', { class: 'chip' }, 'Downloads are not available in this view'),
         btn('Open the C notes', () => openReader({ file: NOTES.file, title: NOTES.title, sub: '45 pages · SCS 1101', docx: NOTES.docx, course: 'scs1101', tag: 'general' }), '', 'read'))),
     el('div', {}, el('pre', { class: 'tree' }, treeNode())));
-  app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Study pack'), el('p', {}, 'For offline revision')), pack));
+  app.append(el('section', { class: 'sec', id: 'pack-sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Study pack'), el('p', {}, 'For offline revision')), pack));
 
   const latest = el('div', { class: 'panel', id: 'latest' });
   app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Latest in the discussion'), el('p', {}, 'Across all courses')), latest));

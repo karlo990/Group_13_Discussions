@@ -7,6 +7,7 @@ This is Group 13's study board for Year I Semester I: SCS 1101 *Introduction to 
 ## Open the board
 
 - **Website:** https://group13-discussions-page.vercel.app (or open `index.html`)
+- **On your phone:** open the website, then use **Add to Home Screen** (iPhone: Share → Add to Home Screen; Android Chrome: ⋮ → Add to Home screen / Install app). It opens full-screen like an app, with the NUST crest icon.
 
 How to move around the board:
 
