@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="img/crest.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Group 13 Study Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: an engineering drawing sheet. A title block heads every view; courses and modules sit in a ruled sheet index; PDFs open in a full-screen reader. */
+:root {
+  --paper: #EEF2F7;      /* drawing-office ground, cool blue bias */
+  --sheet: #FFFFFF;
+  --ink: #142033;
+  --muted: #586378;
+  --rule: #CDD5E1;
+  --rule-strong: #8C99AE;
+  --nust: #1C3F8F;       /* crest blue */
+  --nust-ink: #FFFFFF;
+  --gold: #D99A00;       /* crest gold */
+  --gold-soft: #FFF3D1;
+  --green: #2D7A4B;      /* crest green */
+  --tint: #E4EBF7;
+  --danger: #B3261E;
+  --shadow: 0 1px 0 rgba(20,32,51,.06), 0 8px 24px -16px rgba(20,32,51,.35);
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0D1420; --sheet: #141D2C; --ink: #E5EAF2; --muted: #98A4B8; --rule: #26324A; --rule-strong: #4A5A76;
+  --nust: #8EB0F5; --nust-ink: #0D1420; --gold: #F0BE45; --gold-soft: #2E2611; --green: #6CC28F; --tint: #1B2740; --danger: #F2827A;
+  --shadow: 0 1px 0 rgba(0,0,0,.4), 0 10px 26px -18px rgba(0,0,0,.8); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #0D1420; --sheet: #141D2C; --ink: #E5EAF2; --muted: #98A4B8; --rule: #26324A; --rule-strong: #4A5A76;
+  --nust: #8EB0F5; --nust-ink: #0D1420; --gold: #F0BE45; --gold-soft: #2E2611; --green: #6CC28F; --tint: #1B2740; --danger: #F2827A;
+  --shadow: 0 1px 0 rgba(0,0,0,.4), 0 10px 26px -18px rgba(0,0,0,.8); color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html, body { background: var(--paper); }
+body { color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55; margin: 0;
+  background-image: linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 32px 32px; background-attachment: fixed; background-position: -1px -1px; }
+body::before { content: ""; position: fixed; inset: 0; background: var(--paper); opacity: .86; z-index: -1; pointer-events: none; }
+a { color: var(--nust); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; letter-spacing: -.01em; }
+.mono { font-family: var(--f-mono); }
+.label { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- top bar ---------- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--sheet); border-bottom: 2px solid var(--ink); }
+.bar-in { max-width: 1180px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); flex: none; }
+.brand img { width: 28px; height: 35px; object-fit: contain; }
+.brand b { font-family: var(--f-display); font-stretch: 70%; font-weight: 800; font-size: 20px; letter-spacing: .02em; }
+.brand b span { color: var(--gold); }
+.crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; min-width: 0; font-size: 13px; color: var(--muted); }
+.crumbs a { color: var(--muted); text-decoration: none; padding: 2px 6px; border-radius: 4px; }
+.crumbs a:hover { background: var(--tint); color: var(--ink); }
+.crumbs .sep { opacity: .5; }
+.crumbs .here { color: var(--ink); font-weight: 600; padding: 2px 6px; }
+
+main > *, .sec > *, .assess > *, .two > * { min-width: 0; }
+main { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 64px; display: grid; gap: 26px; }
+
+/* ---------- title block ---------- */
+.tblock { background: var(--sheet); border: 2px solid var(--ink); display: grid; grid-template-columns: auto auto 1fr; box-shadow: var(--shadow); }
+.tb-cell { padding: 12px 16px; border-right: 1px solid var(--ink); min-width: 0; }
+.tb-cell:last-child { border-right: 0; }
+.tb-crest { display: grid; place-items: center; padding: 10px 14px; }
+.tb-crest img { width: 64px; height: 80px; object-fit: contain; }
+.tb-num { display: grid; align-content: center; justify-items: start; }
+.tb-num .label { color: var(--muted); }
+.big13 { font-family: var(--f-display); font-stretch: 62%; font-weight: 900; font-size: 92px; line-height: .82; letter-spacing: -.02em; color: var(--nust); }
+.big13 em { font-style: normal; color: var(--gold); }
+.tb-main { display: grid; grid-template-rows: auto auto; padding: 0; }
+.tb-head { padding: 14px 18px 12px; border-bottom: 1px solid var(--ink); }
+.tb-head h1 { font-size: clamp(22px, 3.2vw, 32px); font-stretch: 88%; font-weight: 800; line-height: 1.05; }
+.tb-head p { margin: 6px 0 0; color: var(--muted); font-size: 14px; max-width: 64ch; }
+.tb-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tb-grid > div { padding: 9px 14px; border-right: 1px solid var(--rule-strong); min-width: 0; }
+.tb-grid > div:last-child { border-right: 0; }
+.tb-grid .v { font-family: var(--f-display); font-weight: 700; font-size: 22px; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.tb-grid .v.small { font-size: 14px; font-family: var(--f-body); font-weight: 600; line-height: 1.35; }
+
+/* ---------- sections ---------- */
+.sec { display: grid; gap: 12px; }
+.sec-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; border-bottom: 1px solid var(--rule-strong); padding-bottom: 6px; }
+.sec-h h2 { font-size: 21px; font-stretch: 85%; font-weight: 800; }
+.sec-h p { margin: 0; color: var(--muted); font-size: 13.5px; }
+.panel { background: var(--sheet); border: 1px solid var(--rule-strong); }
+
+/* course cards */
+.courses { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+.course { background: var(--sheet); border: 1px solid var(--rule-strong); border-top: 5px solid var(--c, var(--nust)); text-decoration: none; color: var(--ink); display: grid; grid-template-rows: auto 1fr auto; transition: transform .15s ease, box-shadow .15s ease; }
+.course:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.course .top { padding: 14px 16px 6px; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.course .code { font-family: var(--f-mono); font-weight: 600; font-size: 15px; color: var(--c, var(--nust)); }
+.course h3 { padding: 0 16px; font-size: 19px; font-stretch: 90%; font-weight: 700; line-height: 1.2; }
+.course .foot { padding: 10px 16px 14px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--muted); background: var(--sheet); white-space: nowrap; }
+.chip.ok { border-color: var(--green); color: var(--green); }
+.chip.warn { border-color: var(--gold); color: var(--ink); background: var(--gold-soft); }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 12px; border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 6px; cursor: pointer; font-size: 13.5px; font-weight: 500; text-decoration: none; color: var(--ink); white-space: nowrap; }
+.btn:hover { border-color: var(--ink); }
+.btn.primary { background: var(--nust); border-color: var(--nust); color: var(--nust-ink); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.gold { background: var(--gold); border-color: var(--gold); color: #1A1300; }
+.btn.ghost { border-color: transparent; background: transparent; }
+.btn.ghost:hover { background: var(--tint); }
+.btn[disabled] { opacity: .5; cursor: default; }
+.btn svg { width: 15px; height: 15px; }
+
+/* pack */
+.pack { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 0; }
+.pack > div { padding: 16px 18px; min-width: 0; }
+.pack > div + div { border-left: 1px solid var(--rule); }
+.pack h3 { font-size: 18px; font-stretch: 90%; }
+.pack p { margin: 6px 0 12px; color: var(--muted); font-size: 14px; }
+.tree { font-family: var(--f-mono); font-size: 12.5px; line-height: 1.75; color: var(--ink); margin: 0; white-space: pre; overflow-x: auto; }
+.tree i { font-style: normal; color: var(--muted); }
+
+/* course head */
+.chead { background: var(--sheet); border: 2px solid var(--ink); box-shadow: var(--shadow); }
+.chead-top { padding: 16px 18px; display: grid; gap: 6px; border-bottom: 1px solid var(--ink); }
+.chead-top .code { font-family: var(--f-mono); font-weight: 600; color: var(--nust); font-size: 15px; }
+.chead-top h1 { font-size: clamp(24px, 3.4vw, 36px); font-stretch: 84%; font-weight: 800; line-height: 1.05; }
+.chead-top p { margin: 0; color: var(--muted); max-width: 70ch; font-size: 14px; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.meta > div { padding: 9px 14px; border-right: 1px solid var(--rule-strong); min-width: 0; }
+.meta > div:last-child { border-right: 0; }
+.meta .v { font-weight: 600; font-size: 14px; }
+.assess { padding: 12px 18px 16px; border-top: 1px solid var(--ink); display: grid; gap: 8px; }
+.abar { display: flex; height: 30px; border: 1px solid var(--ink); }
+.abar > div { min-width: 0; display: flex; align-items: center; padding: 0 8px; font-size: 12px; font-weight: 600; overflow: hidden; white-space: nowrap; border-right: 1px solid var(--ink); }
+.abar > div:last-child { border-right: 0; }
+.abar .ex { background: var(--nust); color: var(--nust-ink); }
+.abar .ca { background: var(--gold-soft); color: var(--ink); }
+.abar .gr { background: var(--gold); color: #1A1300; }
+
+/* module index (sheet index) */
+.mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0; background: var(--sheet); border: 1px solid var(--rule-strong); }
+.mod { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 0; text-decoration: none; color: var(--ink); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-height: 112px; transition: background .12s; }
+.mod:hover { background: var(--tint); }
+.mod .no { font-family: var(--f-display); font-stretch: 62%; font-weight: 900; font-size: 34px; color: var(--nust); padding: 10px 0 0 12px; line-height: 1; font-variant-numeric: tabular-nums; }
+.mod .body { padding: 11px 14px 12px 6px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.mod h3 { font-size: 15.5px; font-stretch: 92%; font-weight: 700; line-height: 1.2; }
+.mod .row { display: flex; flex-wrap: wrap; gap: 6px; }
+.heat { display: flex; gap: 2px; align-items: flex-end; height: 14px; }
+.heat i { width: 6px; background: var(--rule); display: block; }
+.heat i.on { background: var(--gold); }
+
+/* tabs */
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--ink); overflow-x: auto; }
+.tab { padding: 8px 14px; border: 0; background: transparent; cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--gold); }
+
+/* library rows */
+.lib { display: grid; }
+.lrow { display: grid; grid-template-columns: 58px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.lrow:last-child { border-bottom: 0; }
+.lrow .n { font-family: var(--f-display); font-stretch: 62%; font-weight: 900; font-size: 30px; color: var(--gold); line-height: 1; text-align: center; }
+.lrow .n.doc { color: var(--nust); font-size: 15px; font-family: var(--f-mono); font-weight: 600; font-stretch: normal; }
+.lrow h3 { font-size: 16px; font-stretch: 92%; font-weight: 700; }
+.lrow p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+.lrow .acts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+
+/* module page */
+.mhead { background: var(--sheet); border: 2px solid var(--ink); display: grid; grid-template-columns: auto minmax(0, 1fr); box-shadow: var(--shadow); }
+.mhead .no { font-family: var(--f-display); font-stretch: 62%; font-weight: 900; font-size: 84px; line-height: .85; color: var(--nust); padding: 14px 18px; border-right: 1px solid var(--ink); display: grid; place-items: center; min-width: 110px; }
+.mhead .txt { padding: 14px 18px; display: grid; gap: 6px; align-content: center; min-width: 0; }
+.mhead h1 { font-size: clamp(22px, 3vw, 32px); font-stretch: 86%; font-weight: 800; line-height: 1.08; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.list { display: grid; }
+.li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--rule); text-align: left; background: transparent; border-left: 0; border-right: 0; border-top: 0; cursor: pointer; width: 100%; color: var(--ink); }
+.li:last-child { border-bottom: 0; }
+button.li:hover { background: var(--tint); }
+.li .k { font-family: var(--f-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.li .t { font-size: 14px; min-width: 0; }
+.li .pg { font-family: var(--f-mono); font-size: 12px; color: var(--nust); white-space: nowrap; }
+.li.static { cursor: default; }
+.grp { padding: 8px 14px; background: var(--tint); border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; gap: 8px; align-items: center; flex-wrap: wrap; }
+.grp b { font-family: var(--f-display); font-stretch: 90%; font-size: 14.5px; }
+.empty { padding: 18px 16px; color: var(--muted); font-size: 14px; }
+
+/* discussion */
+.disc { display: grid; }
+.composer { padding: 14px 16px; border-bottom: 1px solid var(--rule); display: grid; gap: 8px; }
+.composer textarea { width: 100%; min-height: 76px; resize: vertical; font: inherit; font-size: 14.5px; padding: 9px 11px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--paper); color: var(--ink); }
+.composer .row > .btn { flex: none; }
+.composer .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.composer select { flex: 1 1 160px; min-width: 0; width: 100%; font: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--sheet); color: var(--ink); max-width: 100%; }
+.replying { font-size: 12.5px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 16px; border-bottom: 1px solid var(--rule); }
+.fchip { border: 1px solid var(--rule-strong); background: var(--sheet); padding: 3px 10px; border-radius: 999px; font-size: 12.5px; cursor: pointer; color: var(--muted); }
+.fchip[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+.post { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.post:last-child { border-bottom: 0; }
+.post .av { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; background: var(--tint); display: block; }
+.post .who { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; font-size: 13px; }
+.post .who b { font-size: 14px; }
+.post .who .when { color: var(--muted); font-size: 12px; }
+.post .text { margin: 3px 0 4px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14.5px; }
+.post .ops { display: flex; gap: 4px; flex-wrap: wrap; }
+.post .ops .btn { padding: 2px 8px; font-size: 12.5px; }
+.post .replies { margin-top: 8px; border-left: 2px solid var(--rule-strong); display: grid; }
+.post .replies .post { padding: 8px 0 8px 12px; border-bottom: 0; grid-template-columns: 26px minmax(0, 1fr); }
+.post .replies .av { width: 26px; height: 26px; }
+.tagref { font-family: var(--f-mono); font-size: 11.5px; color: var(--nust); background: var(--tint); padding: 1px 6px; border-radius: 4px; border: 0; cursor: pointer; }
+.notice { padding: 10px 16px; font-size: 13px; color: var(--muted); background: var(--gold-soft); border-bottom: 1px solid var(--rule); }
+
+/* reader */
+.reader { position: fixed; inset: 0; z-index: 50; background: var(--paper); display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.rbar { background: var(--sheet); border-bottom: 2px solid var(--ink); padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rbar .ttl { flex: 1 1 200px; min-width: 0; }
+.rbar .ttl b { display: block; font-family: var(--f-display); font-stretch: 88%; font-size: 16px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rbar .ttl span { font-size: 12px; color: var(--muted); }
+.rbar .grpb { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.pgind { font-family: var(--f-mono); font-size: 12.5px; padding: 0 6px; font-variant-numeric: tabular-nums; }
+.rscroll { overflow: auto; padding: 18px 12px calc(40px + env(safe-area-inset-bottom, 0px)); }
+.pages { display: grid; gap: 14px; justify-content: center; }
+.pg { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25), 0 10px 30px -18px rgba(0,0,0,.5); position: relative; }
+.pg canvas { display: block; width: 100%; height: 100%; }
+.pg .lk { position: absolute; display: block; border: 0; padding: 0; background: transparent; cursor: pointer; border-radius: 2px; }
+.pg .lk:hover, .pg .lk:focus-visible { background: rgba(217,154,0,.22); outline: 1px solid var(--gold); }
+.pg .pnum { position: absolute; right: 8px; bottom: -18px; font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.rstatus { padding: 40px 16px; text-align: center; color: var(--muted); }
+
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--sheet); padding: 9px 14px; border-radius: 8px; font-size: 13.5px; z-index: 80; max-width: calc(100% - 32px); }
+footer.foot { max-width: 1180px; margin: 0 auto; padding: 0 16px 40px; color: var(--muted); font-size: 12.5px; display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: space-between; }
+
+@media (max-width: 820px) {
+  .tblock { grid-template-columns: auto 1fr; }
+  .tb-main { grid-column: 1 / -1; border-top: 1px solid var(--ink); }
+  .tb-num { border-right: 0; }
+  .tb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tb-grid > div:nth-child(2) { border-right: 0; }
+  .tb-grid > div:nth-child(-n+2) { border-bottom: 1px solid var(--rule-strong); }
+  .pack { grid-template-columns: minmax(0, 1fr); }
+  .pack > div + div { border-left: 0; border-top: 1px solid var(--rule); }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta > div:nth-child(2) { border-right: 0; }
+  .meta > div:nth-child(-n+2) { border-bottom: 1px solid var(--rule-strong); }
+  .two { grid-template-columns: minmax(0, 1fr); }
+  .lrow { grid-template-columns: 42px minmax(0, 1fr); }
+  .lrow .acts { grid-column: 1 / -1; justify-content: flex-start; }
+  .mhead .no { font-size: 60px; min-width: 80px; }
+  .big13 { font-size: 72px; }
+  .abar > div { padding: 0 4px; font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="#home" aria-label="Group 13 home"><img src="img/crest.png" alt="NUST crest"><b>GROUP <span>13</span></b></a>
+    <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  </div>
+</header>
+<main id="app"></main>
+<footer class="foot"><span>Group 13 · Civil &amp; Water Engineering · NUST Faculty of Engineering</span><span>Year I · Semester I · prepared October 2026</span></footer>
+<div id="reader" class="reader" hidden></div>
+<div id="toast" class="toast" hidden role="status"></div>
+
+<script type="application/json" id="data">{"books":[{"n":1,"file":"books/Solution_Book_1_SCS1101_Oct2024.pdf","docx":"word/Solution_Book_1_SCS1101_Oct2024.docx","paper":"papers/SCS1101_Oct2024.pdf","label":"October 2024","fmt":"SCS 1101 · Mr J. Mutengeni · any 4 of 5 · 25 marks each","pages":25,"parts":[{"q":"Question 1","title":"1(a) Explain these terms [2 each = 10]","page":7,"tags":["t3","t5","t6","t10"]},{"q":"Question 1","title":"1(b) if, if-else and else-if ladder, with flowcharts and code [5 each = 15]","page":7,"tags":["t9","t10"]},{"q":"Question 2","title":"2(a) Binary equivalent of 156₁₆ [2]","page":11,"tags":["t2"]},{"q":"Question 2","title":"2(b) Three types of programming errors [3]","page":11,"tags":["t7"]},{"q":"Question 2","title":"2(c) (BAE)₁₆ + (DAD)₁₆ in octal [5]","page":11,"tags":["t2"]},{"q":"Question 2","title":"2(d) Program: 10 integers into an array, then their average [15]","page":12,"tags":["t8","t10"]},{"q":"Question 3","title":"3(a)(i) What is a Local Area Network? [2]","page":14,"tags":["t5"]},{"q":"Question 3","title":"3(a)(ii) Two topologies for the 16-station lab, with labelled diagrams [8]","page":14,"tags":["t5"]},{"q":"Question 3","title":"3(b) Program: ZESA electricity bill [15]","page":14,"tags":["t9","t10"]},{"q":"Question 4","title":"4(a) Five functions of the operating system [5]","page":17,"tags":["t4"]},{"q":"Question 4","title":"4(b) Identify the errors in the program [10]","page":17,"tags":["t7","t10"]},{"q":"Question 4","title":"4(c) Compare and contrast databases and cloud computing [10]","page":18,"tags":["t6","t5"]},{"q":"Question 5","title":"5(a) Pass by value vs pass by reference [5]","page":20,"tags":["t10"]},{"q":"Question 5","title":"5(b) Five advantages of cloud storage [10]","page":20,"tags":["t5"]},{"q":"Question 5","title":"5(c) Program: recursive Fibonacci series [10]","page":21,"tags":["t8","t10"]}]},{"n":2,"file":"books/Solution_Book_2_SCS1101_2025.pdf","docx":"word/Solution_Book_2_SCS1101_2025.docx","paper":"papers/SCS1101_2025.pdf","label":"2025 paper","fmt":"SCS 1101 · 5 questions · 25 marks each","pages":25,"parts":[{"q":"Question 1","title":"1(a) Five ways computer viruses spread [10]","page":7,"tags":["t5"]},{"q":"Question 1","title":"1(b) Program: ATM with deposit, withdraw and balance [15]","page":7,"tags":["t10"]},{"q":"Question 2","title":"2(a) Functions of computer components [2 each = 6]","page":10,"tags":["t3"]},{"q":"Question 2","title":"2(b) The topology in Figure 1 [4]","page":10,"tags":["t5"]},{"q":"Question 2","title":"2(c) Program: analyse 30 exam scores [15]","page":10,"tags":["t8","t10"]},{"q":"Question 3","title":"3(a) Four types of errors, with examples [2 each = 8]","page":13,"tags":["t7"]},{"q":"Question 3","title":"3(b) Local and global variables, with a program [7]","page":13,"tags":["t10"]},{"q":"Question 3","title":"3(c) Compare and contrast traditional filing and cloud storage [10]","page":14,"tags":["t4","t5"]},{"q":"Question 4","title":"4(a) Five benefits of using the internet [10]","page":16,"tags":["t5"]},{"q":"Question 4","title":"4(b) Program: PAYE tax from salary [15]","page":16,"tags":["t9","t10"]},{"q":"Question 5","title":"5(a) IaaS and PaaS, with examples [4 each = 8]","page":19,"tags":["t5"]},{"q":"Question 5","title":"5(b) Five functions of an operating system [5]","page":19,"tags":["t4"]},{"q":"Question 5","title":"5(c) Program: recursive Fibonacci series [12]","page":20,"tags":["t8","t10"]}]},{"n":3,"file":"books/Solution_Book_3_SCS1101_May2009.pdf","docx":"word/Solution_Book_3_SCS1101_May2009.docx","paper":"papers/SCS1101_May2009.pdf","label":"May 2009","fmt":"SCS 1101 · Section A + any 3 of B · 20 marks each","pages":23,"parts":[{"q":"Question 1","title":"1(a) Block diagram of computer hardware architecture [10]","page":7,"tags":["t3"]},{"q":"Question 1","title":"1(b) Operation of an impact printer [5]","page":7,"tags":["t3"]},{"q":"Question 1","title":"1(c) First-generation computers [5]","page":7,"tags":["t1"]},{"q":"Question 2","title":"Program: area and circumference of a circle from a radius","page":9,"tags":["t9","t10"]},{"q":"Question 3","title":"3(a) Convert 185 (decimal) to BCD [5]","page":11,"tags":["t2"]},{"q":"Question 3","title":"3(b) Convert 1011010110₂ to hexadecimal [5]","page":11,"tags":["t2"]},{"q":"Question 3","title":"3(c) Program: accept two numbers, display their sum [10]","page":11,"tags":["t10"]},{"q":"Question 4","title":"4(a) Define an operating system and outline five functions [10]","page":13,"tags":["t4"]},{"q":"Question 4","title":"4(b) Two classes of software, with examples [4]","page":13,"tags":["t4"]},{"q":"Question 4","title":"4(c) Meanings [2 each = 6]","page":13,"tags":["t4","t5"]},{"q":"Question 5","title":"5(a) Ring, star and bus topologies, with diagrams [4 each = 12]","page":14,"tags":["t5"]},{"q":"Question 5","title":"5(b) Purpose of a hub and a modem, with diagrams [4 each = 8]","page":15,"tags":["t5"]},{"q":"Question 6","title":"6(a) Define [2 each = 10]","page":16,"tags":["t8","t10"]},{"q":"Question 6","title":"6(b) Program: n! for a number entered at the keyboard [10]","page":16,"tags":["t8","t10"]},{"q":"Question 7","title":"Program: copy the contents of one file to a new file","page":19,"tags":["t4","t10"]}]},{"n":4,"file":"books/Solution_Book_4_SCS1101_Jul2005_Supp.pdf","docx":"word/Solution_Book_4_SCS1101_Jul2005_Supp.docx","paper":"papers/SCS1101_Jul2005_Supp.pdf","label":"July 2005 supplementary","fmt":"SCS 1101 · any 5 of 6 · 20 marks each","pages":21,"parts":[{"q":"Question 1","title":"(i) Describe RAM and ROM and their function [4]","page":7,"tags":["t3"]},{"q":"Question 1","title":"(ii) Types of RAM and ROM [12]","page":7,"tags":["t3"]},{"q":"Question 1","title":"(iii) Applications [4]","page":7,"tags":["t3"]},{"q":"Question 2","title":"Major milestones in the history and evolution of computers","page":9,"tags":["t1"]},{"q":"Question 3","title":"(i) Purpose of a compiler and the tasks it performs [10]","page":11,"tags":["t7"]},{"q":"Question 3","title":"(ii) An example IDE and its main components [10]","page":11,"tags":["t7"]},{"q":"Question 4","title":"Internet access through a LAN or an ISP: the options [20]","page":13,"tags":["t5"]},{"q":"Question 5","title":"(i) Components of structured programming, with code snippets [10]","page":15,"tags":["t9","t10"]},{"q":"Question 5","title":"(ii) Importance of declaring a variable [2]","page":15,"tags":["t10"]},{"q":"Question 5","title":"(iii) Three basic data types in C [6]","page":15,"tags":["t2","t10"]},{"q":"Question 5","title":"(iv) What is an abstract data type? [2]","page":15,"tags":["t8"]},{"q":"Question 6","title":"(i) The concept of a string in C, with an example [6]","page":17,"tags":["t8"]},{"q":"Question 6","title":"(ii) The three components of a function header [6]","page":17,"tags":["t10"]},{"q":"Question 6","title":"(iii) Function: Fahrenheit to Celsius, C = 5/9 (F − 32) [8]","page":17,"tags":["t10"]}]},{"n":5,"file":"books/Solution_Book_5_SCS1101_Dec2004_Eng.pdf","docx":"word/Solution_Book_5_SCS1101_Dec2004_Eng.docx","paper":"papers/SCS1101_Dec2004_Eng.pdf","label":"December 2004 (engineering)","fmt":"SCS 1101 · 2 from A + 3 from B · 20 marks each","pages":27,"parts":[{"q":"Question 1","title":"1(a) Explain, with examples [2 each = 10]","page":7,"tags":["t3","t4"]},{"q":"Question 1","title":"1(b) Advantages of networking computers [5]","page":7,"tags":["t5"]},{"q":"Question 1","title":"1(c) Benefits and drawbacks of personal computers [5]","page":7,"tags":["t1","t3"]},{"q":"Question 2","title":"2(a)(i) Convert 13.5625 to binary [1]","page":9,"tags":["t2"]},{"q":"Question 2","title":"2(a)(ii) CAD × B0D in hexadecimal [1]","page":9,"tags":["t2"]},{"q":"Question 2","title":"2(b) Describe the computer generations [8]","page":9,"tags":["t1"]},{"q":"Question 2","title":"2(c) Components needed to assemble a computer from scratch [10]","page":10,"tags":["t3"]},{"q":"Question 3","title":"3(a) How are indexed sequential files accessed? [2]","page":11,"tags":["t4"]},{"q":"Question 3","title":"3(b) Laser vs dot-matrix printers [4]","page":11,"tags":["t3"]},{"q":"Question 3","title":"3(c) Computer virus and symptoms of infection [4]","page":11,"tags":["t5"]},{"q":"Question 3","title":"3(d) Five types of high-level programming languages, with examples [10]","page":11,"tags":["t7"]},{"q":"Question 4","title":"4(a) Evaluate, with a = 8, b = 3, c = −5 (all int) [5]","page":13,"tags":["t10"]},{"q":"Question 4","title":"4(b) Program: read a string, print it reversed and its length [5]","page":13,"tags":["t8","t10"]},{"q":"Question 4","title":"4(c) Program: sum, mean, deviations and standard deviation of m values [10]","page":13,"tags":["t8","t9"]},{"q":"Question 5","title":"Menu-driven perimeter program with functions, plus a flowchart","page":16,"tags":["t9","t10"]},{"q":"Question 6","title":"6(a) Semantic error, with an example [2]","page":19,"tags":["t7"]},{"q":"Question 6","title":"6(b) Syntax of the switch statement [3]","page":19,"tags":["t10"]},{"q":"Question 6","title":"6(c) Valid or invalid? [5]","page":19,"tags":["t7"]},{"q":"Question 6","title":"6(d) Program: each value from the largest down, with count and positions [10]","page":19,"tags":["t8","t9"]},{"q":"Question 7","title":"7(a) What is an infinite loop? Example [2]","page":22,"tags":["t10"]},{"q":"Question 7","title":"7(b) Output of the nested loop [3]","page":22,"tags":["t10"]},{"q":"Question 7","title":"7(c) Program: rectangle area using pointers [5]","page":22,"tags":["t8","t10"]},{"q":"Question 7","title":"7(d) Program: help a child count with asterisks [10]","page":23,"tags":["t10"]}]},{"n":6,"file":"books/Solution_Book_6_SCP1101_Aug2004_Supp.pdf","docx":"word/Solution_Book_6_SCP1101_Aug2004_Supp.docx","paper":"papers/SCP1101_Aug2004_Supp.pdf","label":"August 2004 supplementary","fmt":"SCP 1101 · page 1 (Section A) only","pages":13,"parts":[{"q":"Question 1","title":"Five printing devices: operation, impact or non-impact, quality and speed [4 each]","page":7,"tags":["t3"]},{"q":"Question 2","title":"2(i) Explain these terms [2 each = 10]","page":8,"tags":["t3","t4"]},{"q":"Question 2","title":"2(ii) Operating system: definition and five functions [10]","page":8,"tags":["t4"]},{"q":"Question 3","title":"3(i) Advantages of high-level languages over low-level languages [5]","page":9,"tags":["t7"]},{"q":"Question 3","title":"3(ii) Compare first- and fourth-generation computers [15]","page":9,"tags":["t1"]}]},{"n":7,"file":"books/Solution_Book_7_SCS1101_Dec2001.pdf","docx":"word/Solution_Book_7_SCS1101_Dec2001.docx","paper":"papers/SCS1101_Dec2001.pdf","label":"December 2001","fmt":"SCS 1101 · 4 from A + 1 from B · 20 marks each","pages":21,"parts":[{"q":"Question 1","title":"\"The invention of the computer has greatly affected the lives of many people.\" Discuss.","page":7,"tags":["t1"]},{"q":"Question 2","title":"2(a) Main components of a computer [5]","page":8,"tags":["t3"]},{"q":"Question 2","title":"2(b) How each component functions [3 each = 15]","page":8,"tags":["t3"]},{"q":"Question 3","title":"How these devices operate [4 each]","page":10,"tags":["t3"]},{"q":"Question 4","title":"Criteria for selecting a software package [20]","page":11,"tags":["t4"]},{"q":"Question 5","title":"5(a) Advantages of high-level languages over other languages [5]","page":12,"tags":["t7"]},{"q":"Question 5","title":"5(b) Steps in solving a computer problem [15]","page":12,"tags":["t9"]},{"q":"Question 6","title":"Implement the sum algorithm in C (or Pascal)","page":13,"tags":["t9","t10"]},{"q":"Question 7","title":"Program to compute y = (3h/8)(y₀ + yₙ + 2Σy_even + 4Σy_odd), with n = 4","page":16,"tags":["t9","t10"]}]},{"n":8,"file":"books/Solution_Book_8_SCS2107_Jan2013_Cpp.pdf","docx":"word/Solution_Book_8_SCS2107_Jan2013_Cpp.docx","paper":"papers/SCS2107_Jan2013.pdf","label":"SCS 2107, January 2013 (C++)","fmt":"SCS 2107 Structured Programming · any 4 of 6 · 25 marks","pages":25,"parts":[{"q":"Question 1","title":"1(a) The structured programming constructs, with diagrams [12]","page":7,"tags":["t9","t10"]},{"q":"Question 1","title":"1(b) What is a structured walk-through? [3]","page":9,"tags":["t9"]},{"q":"Question 1","title":"1(c) Advantages and disadvantages of structured walk-throughs [10]","page":9,"tags":["t9"]},{"q":"Question 2","title":"2(a)(i) What is an infinite loop, and how can it be useful? [5]","page":10,"tags":["t10"]},{"q":"Question 2","title":"2(a)(ii) What is wrong with this loop? [5]","page":10,"tags":["t10"]},{"q":"Question 2","title":"2(b) Convert the for loop into a while loop [7]","page":10,"tags":["t10"]},{"q":"Question 2","title":"2(c) Simple calculator with a switch statement [8]","page":11,"tags":["t10"]},{"q":"Question 3","title":"3(a) Function print_pyramid(height) [14]","page":13,"tags":["t10"]},{"q":"Question 3","title":"3(b) Recursive Fibonacci function [11]","page":14,"tags":["t8"]},{"q":"Question 4","title":"4(a) Explain [9]","page":16,"tags":["t8"]},{"q":"Question 4","title":"4(b) Number of the last element of int test[5]; [2]","page":16,"tags":["t8"]},{"q":"Question 4","title":"4(c) Output of the code in Figure 3 [5]","page":16,"tags":["t8","t10"]},{"q":"Question 4","title":"4(d) Function reverse(array, n) [9]","page":16,"tags":["t8","t9"]},{"q":"Question 5","title":"5(a) Explain [3 each = 12]","page":18,"tags":["t10"]},{"q":"Question 5","title":"5(b) Program: NUST mark sheet with a base class and a derived class [13]","page":19,"tags":["t10"]},{"q":"Question 6","title":"Compare and contrast structured programming and object-oriented programming","page":21,"tags":["t9","t7"]}]}],"topics":[{"id":"t1","name":"Foundations of computer science & society","week":1,"items":[{"book":3,"title":"1(c) First-generation computers [5]","page":7,"q":"Question 1"},{"book":4,"title":"Major milestones in the history and evolution of computers","page":9,"q":"Question 2"},{"book":5,"title":"1(c) Benefits and drawbacks of personal computers [5]","page":7,"q":"Question 1"},{"book":5,"title":"2(b) Describe the computer generations [8]","page":9,"q":"Question 2"},{"book":6,"title":"3(ii) Compare first- and fourth-generation computers [15]","page":9,"q":"Question 3"},{"book":7,"title":"\"The invention of the computer has greatly affected the lives of many people.\" Discuss.","page":7,"q":"Question 1"}]},{"id":"t2","name":"Number systems & data representation","week":1,"items":[{"book":1,"title":"2(a) Binary equivalent of 156₁₆ [2]","page":11,"q":"Question 2"},{"book":1,"title":"2(c) (BAE)₁₆ + (DAD)₁₆ in octal [5]","page":11,"q":"Question 2"},{"book":3,"title":"3(a) Convert 185 (decimal) to BCD [5]","page":11,"q":"Question 3"},{"book":3,"title":"3(b) Convert 1011010110₂ to hexadecimal [5]","page":11,"q":"Question 3"},{"book":4,"title":"(iii) Three basic data types in C [6]","page":15,"q":"Question 5"},{"book":5,"title":"2(a)(i) Convert 13.5625 to binary [1]","page":9,"q":"Question 2"},{"book":5,"title":"2(a)(ii) CAD × B0D in hexadecimal [1]","page":9,"q":"Question 2"}]},{"id":"t3","name":"Basic computer components","week":1,"items":[{"book":1,"title":"1(a) Explain these terms [2 each = 10]","page":7,"q":"Question 1"},{"book":2,"title":"2(a) Functions of computer components [2 each = 6]","page":10,"q":"Question 2"},{"book":3,"title":"1(a) Block diagram of computer hardware architecture [10]","page":7,"q":"Question 1"},{"book":3,"title":"1(b) Operation of an impact printer [5]","page":7,"q":"Question 1"},{"book":4,"title":"(i) Describe RAM and ROM and their function [4]","page":7,"q":"Question 1"},{"book":4,"title":"(ii) Types of RAM and ROM [12]","page":7,"q":"Question 1"},{"book":4,"title":"(iii) Applications [4]","page":7,"q":"Question 1"},{"book":5,"title":"1(a) Explain, with examples [2 each = 10]","page":7,"q":"Question 1"},{"book":5,"title":"1(c) Benefits and drawbacks of personal computers [5]","page":7,"q":"Question 1"},{"book":5,"title":"2(c) Components needed to assemble a computer from scratch [10]","page":10,"q":"Question 2"},{"book":5,"title":"3(b) Laser vs dot-matrix printers [4]","page":11,"q":"Question 3"},{"book":6,"title":"Five printing devices: operation, impact or non-impact, quality and speed [4 each]","page":7,"q":"Question 1"},{"book":6,"title":"2(i) Explain these terms [2 each = 10]","page":8,"q":"Question 2"},{"book":7,"title":"2(a) Main components of a computer [5]","page":8,"q":"Question 2"},{"book":7,"title":"2(b) How each component functions [3 each = 15]","page":8,"q":"Question 2"},{"book":7,"title":"How these devices operate [4 each]","page":10,"q":"Question 3"}]},{"id":"t4","name":"Operating systems & system software","week":2,"items":[{"book":1,"title":"4(a) Five functions of the operating system [5]","page":17,"q":"Question 4"},{"book":2,"title":"3(c) Compare and contrast traditional filing and cloud storage [10]","page":14,"q":"Question 3"},{"book":2,"title":"5(b) Five functions of an operating system [5]","page":19,"q":"Question 5"},{"book":3,"title":"4(a) Define an operating system and outline five functions [10]","page":13,"q":"Question 4"},{"book":3,"title":"4(b) Two classes of software, with examples [4]","page":13,"q":"Question 4"},{"book":3,"title":"4(c) Meanings [2 each = 6]","page":13,"q":"Question 4"},{"book":3,"title":"Program: copy the contents of one file to a new file","page":19,"q":"Question 7"},{"book":5,"title":"1(a) Explain, with examples [2 each = 10]","page":7,"q":"Question 1"},{"book":5,"title":"3(a) How are indexed sequential files accessed? [2]","page":11,"q":"Question 3"},{"book":6,"title":"2(i) Explain these terms [2 each = 10]","page":8,"q":"Question 2"},{"book":6,"title":"2(ii) Operating system: definition and five functions [10]","page":8,"q":"Question 2"},{"book":7,"title":"Criteria for selecting a software package [20]","page":11,"q":"Question 4"}]},{"id":"t5","name":"Data communication & networks","week":2,"items":[{"book":1,"title":"1(a) Explain these terms [2 each = 10]","page":7,"q":"Question 1"},{"book":1,"title":"3(a)(i) What is a Local Area Network? [2]","page":14,"q":"Question 3"},{"book":1,"title":"3(a)(ii) Two topologies for the 16-station lab, with labelled diagrams [8]","page":14,"q":"Question 3"},{"book":1,"title":"4(c) Compare and contrast databases and cloud computing [10]","page":18,"q":"Question 4"},{"book":1,"title":"5(b) Five advantages of cloud storage [10]","page":20,"q":"Question 5"},{"book":2,"title":"1(a) Five ways computer viruses spread [10]","page":7,"q":"Question 1"},{"book":2,"title":"2(b) The topology in Figure 1 [4]","page":10,"q":"Question 2"},{"book":2,"title":"3(c) Compare and contrast traditional filing and cloud storage [10]","page":14,"q":"Question 3"},{"book":2,"title":"4(a) Five benefits of using the internet [10]","page":16,"q":"Question 4"},{"book":2,"title":"5(a) IaaS and PaaS, with examples [4 each = 8]","page":19,"q":"Question 5"},{"book":3,"title":"4(c) Meanings [2 each = 6]","page":13,"q":"Question 4"},{"book":3,"title":"5(a) Ring, star and bus topologies, with diagrams [4 each = 12]","page":14,"q":"Question 5"},{"book":3,"title":"5(b) Purpose of a hub and a modem, with diagrams [4 each = 8]","page":15,"q":"Question 5"},{"book":4,"title":"Internet access through a LAN or an ISP: the options [20]","page":13,"q":"Question 4"},{"book":5,"title":"1(b) Advantages of networking computers [5]","page":7,"q":"Question 1"},{"book":5,"title":"3(c) Computer virus and symptoms of infection [4]","page":11,"q":"Question 3"}]},{"id":"t6","name":"Database fundamentals","week":2,"items":[{"book":1,"title":"1(a) Explain these terms [2 each = 10]","page":7,"q":"Question 1"},{"book":1,"title":"4(c) Compare and contrast databases and cloud computing [10]","page":18,"q":"Question 4"}]},{"id":"t7","name":"Computer languages & programming concepts","week":3,"items":[{"book":1,"title":"2(b) Three types of programming errors [3]","page":11,"q":"Question 2"},{"book":1,"title":"4(b) Identify the errors in the program [10]","page":17,"q":"Question 4"},{"book":2,"title":"3(a) Four types of errors, with examples [2 each = 8]","page":13,"q":"Question 3"},{"book":4,"title":"(i) Purpose of a compiler and the tasks it performs [10]","page":11,"q":"Question 3"},{"book":4,"title":"(ii) An example IDE and its main components [10]","page":11,"q":"Question 3"},{"book":5,"title":"3(d) Five types of high-level programming languages, with examples [10]","page":11,"q":"Question 3"},{"book":5,"title":"6(a) Semantic error, with an example [2]","page":19,"q":"Question 6"},{"book":5,"title":"6(c) Valid or invalid? [5]","page":19,"q":"Question 6"},{"book":6,"title":"3(i) Advantages of high-level languages over low-level languages [5]","page":9,"q":"Question 3"},{"book":7,"title":"5(a) Advantages of high-level languages over other languages [5]","page":12,"q":"Question 5"},{"book":8,"title":"Compare and contrast structured programming and object-oriented programming","page":21,"q":"Question 6"}]},{"id":"t8","name":"Simple data structures & recursion","week":3,"items":[{"book":1,"title":"2(d) Program: 10 integers into an array, then their average [15]","page":12,"q":"Question 2"},{"book":1,"title":"5(c) Program: recursive Fibonacci series [10]","page":21,"q":"Question 5"},{"book":2,"title":"2(c) Program: analyse 30 exam scores [15]","page":10,"q":"Question 2"},{"book":2,"title":"5(c) Program: recursive Fibonacci series [12]","page":20,"q":"Question 5"},{"book":3,"title":"6(a) Define [2 each = 10]","page":16,"q":"Question 6"},{"book":3,"title":"6(b) Program: n! for a number entered at the keyboard [10]","page":16,"q":"Question 6"},{"book":4,"title":"(iv) What is an abstract data type? [2]","page":15,"q":"Question 5"},{"book":4,"title":"(i) The concept of a string in C, with an example [6]","page":17,"q":"Question 6"},{"book":5,"title":"4(b) Program: read a string, print it reversed and its length [5]","page":13,"q":"Question 4"},{"book":5,"title":"4(c) Program: sum, mean, deviations and standard deviation of m values [10]","page":13,"q":"Question 4"},{"book":5,"title":"6(d) Program: each value from the largest down, with count and positions [10]","page":19,"q":"Question 6"},{"book":5,"title":"7(c) Program: rectangle area using pointers [5]","page":22,"q":"Question 7"},{"book":8,"title":"3(b) Recursive Fibonacci function [11]","page":14,"q":"Question 3"},{"book":8,"title":"4(a) Explain [9]","page":16,"q":"Question 4"},{"book":8,"title":"4(b) Number of the last element of int test[5]; [2]","page":16,"q":"Question 4"},{"book":8,"title":"4(c) Output of the code in Figure 3 [5]","page":16,"q":"Question 4"},{"book":8,"title":"4(d) Function reverse(array, n) [9]","page":16,"q":"Question 4"}]},{"id":"t9","name":"Algorithms & problem solving","week":4,"items":[{"book":1,"title":"1(b) if, if-else and else-if ladder, with flowcharts and code [5 each = 15]","page":7,"q":"Question 1"},{"book":1,"title":"3(b) Program: ZESA electricity bill [15]","page":14,"q":"Question 3"},{"book":2,"title":"4(b) Program: PAYE tax from salary [15]","page":16,"q":"Question 4"},{"book":3,"title":"Program: area and circumference of a circle from a radius","page":9,"q":"Question 2"},{"book":4,"title":"(i) Components of structured programming, with code snippets [10]","page":15,"q":"Question 5"},{"book":5,"title":"4(c) Program: sum, mean, deviations and standard deviation of m values [10]","page":13,"q":"Question 4"},{"book":5,"title":"Menu-driven perimeter program with functions, plus a flowchart","page":16,"q":"Question 5"},{"book":5,"title":"6(d) Program: each value from the largest down, with count and positions [10]","page":19,"q":"Question 6"},{"book":7,"title":"5(b) Steps in solving a computer problem [15]","page":12,"q":"Question 5"},{"book":7,"title":"Implement the sum algorithm in C (or Pascal)","page":13,"q":"Question 6"},{"book":7,"title":"Program to compute y = (3h/8)(y₀ + yₙ + 2Σy_even + 4Σy_odd), with n = 4","page":16,"q":"Question 7"},{"book":8,"title":"1(a) The structured programming constructs, with diagrams [12]","page":7,"q":"Question 1"},{"book":8,"title":"1(b) What is a structured walk-through? [3]","page":9,"q":"Question 1"},{"book":8,"title":"1(c) Advantages and disadvantages of structured walk-throughs [10]","page":9,"q":"Question 1"},{"book":8,"title":"4(d) Function reverse(array, n) [9]","page":16,"q":"Question 4"},{"book":8,"title":"Compare and contrast structured programming and object-oriented programming","page":21,"q":"Question 6"}]},{"id":"t10","name":"Introduction to programming practice","week":4,"items":[{"book":1,"title":"1(a) Explain these terms [2 each = 10]","page":7,"q":"Question 1"},{"book":1,"title":"1(b) if, if-else and else-if ladder, with flowcharts and code [5 each = 15]","page":7,"q":"Question 1"},{"book":1,"title":"2(d) Program: 10 integers into an array, then their average [15]","page":12,"q":"Question 2"},{"book":1,"title":"3(b) Program: ZESA electricity bill [15]","page":14,"q":"Question 3"},{"book":1,"title":"4(b) Identify the errors in the program [10]","page":17,"q":"Question 4"},{"book":1,"title":"5(a) Pass by value vs pass by reference [5]","page":20,"q":"Question 5"},{"book":1,"title":"5(c) Program: recursive Fibonacci series [10]","page":21,"q":"Question 5"},{"book":2,"title":"1(b) Program: ATM with deposit, withdraw and balance [15]","page":7,"q":"Question 1"},{"book":2,"title":"2(c) Program: analyse 30 exam scores [15]","page":10,"q":"Question 2"},{"book":2,"title":"3(b) Local and global variables, with a program [7]","page":13,"q":"Question 3"},{"book":2,"title":"4(b) Program: PAYE tax from salary [15]","page":16,"q":"Question 4"},{"book":2,"title":"5(c) Program: recursive Fibonacci series [12]","page":20,"q":"Question 5"},{"book":3,"title":"Program: area and circumference of a circle from a radius","page":9,"q":"Question 2"},{"book":3,"title":"3(c) Program: accept two numbers, display their sum [10]","page":11,"q":"Question 3"},{"book":3,"title":"6(a) Define [2 each = 10]","page":16,"q":"Question 6"},{"book":3,"title":"6(b) Program: n! for a number entered at the keyboard [10]","page":16,"q":"Question 6"},{"book":3,"title":"Program: copy the contents of one file to a new file","page":19,"q":"Question 7"},{"book":4,"title":"(i) Components of structured programming, with code snippets [10]","page":15,"q":"Question 5"},{"book":4,"title":"(ii) Importance of declaring a variable [2]","page":15,"q":"Question 5"},{"book":4,"title":"(iii) Three basic data types in C [6]","page":15,"q":"Question 5"},{"book":4,"title":"(ii) The three components of a function header [6]","page":17,"q":"Question 6"},{"book":4,"title":"(iii) Function: Fahrenheit to Celsius, C = 5/9 (F − 32) [8]","page":17,"q":"Question 6"},{"book":5,"title":"4(a) Evaluate, with a = 8, b = 3, c = −5 (all int) [5]","page":13,"q":"Question 4"},{"book":5,"title":"4(b) Program: read a string, print it reversed and its length [5]","page":13,"q":"Question 4"},{"book":5,"title":"Menu-driven perimeter program with functions, plus a flowchart","page":16,"q":"Question 5"},{"book":5,"title":"6(b) Syntax of the switch statement [3]","page":19,"q":"Question 6"},{"book":5,"title":"7(a) What is an infinite loop? Example [2]","page":22,"q":"Question 7"},{"book":5,"title":"7(b) Output of the nested loop [3]","page":22,"q":"Question 7"},{"book":5,"title":"7(c) Program: rectangle area using pointers [5]","page":22,"q":"Question 7"},{"book":5,"title":"7(d) Program: help a child count with asterisks [10]","page":23,"q":"Question 7"},{"book":7,"title":"Implement the sum algorithm in C (or Pascal)","page":13,"q":"Question 6"},{"book":7,"title":"Program to compute y = (3h/8)(y₀ + yₙ + 2Σy_even + 4Σy_odd), with n = 4","page":16,"q":"Question 7"},{"book":8,"title":"1(a) The structured programming constructs, with diagrams [12]","page":7,"q":"Question 1"},{"book":8,"title":"2(a)(i) What is an infinite loop, and how can it be useful? [5]","page":10,"q":"Question 2"},{"book":8,"title":"2(a)(ii) What is wrong with this loop? [5]","page":10,"q":"Question 2"},{"book":8,"title":"2(b) Convert the for loop into a while loop [7]","page":10,"q":"Question 2"},{"book":8,"title":"2(c) Simple calculator with a switch statement [8]","page":11,"q":"Question 2"},{"book":8,"title":"3(a) Function print_pyramid(height) [14]","page":13,"q":"Question 3"},{"book":8,"title":"4(c) Output of the code in Figure 3 [5]","page":16,"q":"Question 4"},{"book":8,"title":"5(a) Explain [3 each = 12]","page":18,"q":"Question 5"},{"book":8,"title":"5(b) Program: NUST mark sheet with a base class and a derived class [13]","page":19,"q":"Question 5"}]}]}</script>
+<script>
+(function () {
+'use strict';
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const k of kids.flat()) if (k != null && k !== false) e.append(k.nodeType ? k : document.createTextNode(String(k)));
+  return e;
+};
+const ICON = {
+  read: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/></svg>',
+  save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+  paper: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15H6zM14 2v6h6M9 13h8M9 17h8"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+};
+const ico = (n) => { const s = el('span', { 'aria-hidden': 'true', style: 'display:inline-flex' }); s.innerHTML = ICON[n]; return s; };
+const btn = (label, onclick, cls = '', icon) => el('button', { class: 'btn ' + cls, type: 'button', onclick }, icon ? ico(icon) : null, label);
+
+/* ---------------- static course model ---------------- */
+const BOOKS = DATA.books;
+const NOTES = { file: 'notes/C_Programming_Notes_SCS1101.pdf', docx: 'word/C_Programming_Notes_SCS1101.docx', title: 'C Programming Notes for SCS 1101', pages: 45 };
+const OUTLINE = { file: 'papers/SCS1101_Course_Outline.pdf', title: 'SCS 1101 course outline' };
+const MODULES = [
+  { no: 1, wk: 1, t: 'Foundations of computer science & society', subs: ['1.1 Course introduction, materials and assessment', '1.2 The Information Society: computers in modern life', '1.3 History of computers: generations and evolution', '1.4 Data vs information'], notes: [] },
+  { no: 2, wk: 1, t: 'Number systems & data representation', subs: ['2.1 Binary, octal, decimal, hexadecimal', '2.2 Arithmetic in different number bases', '2.3 Integers, floating point, characters (ASCII/Unicode)'], notes: [['Part 3 · Variables, data types and memory', 7]] },
+  { no: 3, wk: 1, t: 'Basic computer components', subs: ['3.1 CPU: ALU, control unit, registers', '3.2 Input and output units', '3.3 Primary (RAM/ROM) and secondary storage', '3.4 Evaluating and selecting hardware'], notes: [] },
+  { no: 4, wk: 2, t: 'Operating systems & system software', subs: ['4.1 Operating systems: roles and types', '4.2 Process and memory management', '4.3 I/O management and job control', '4.4 File structures: sequential, random, indexed'], notes: [['Part 13 · Files', 33]] },
+  { no: 5, wk: 2, t: 'Data communication & networks', subs: ['5.1 Signals, bandwidth, protocols', '5.2 LAN, WAN, MAN; wired and wireless', '5.3 Internet services and basic network security'], notes: [] },
+  { no: 6, wk: 2, t: 'Database fundamentals', subs: ['6.1 Databases and data models', '6.2 DBMS examples and features', '6.3 File vs database systems'], notes: [] },
+  { no: 7, wk: 3, t: 'Computer languages & programming concepts', subs: ['7.1 Machine code and assembly language', '7.2 High-level languages', '7.3 Compilers vs interpreters', '7.4 Grammar, syntax and keywords'], notes: [['Part 1 · How C becomes a running program', 3], ['Part 2 · Your first C program', 5], ['Part 14 · Bugs and debugging', 35]] },
+  { no: 8, wk: 3, t: 'Simple data structures & recursion', subs: ['8.1 Arrays and lists', '8.2 Stacks and queues', '8.3 Trees and hash tables', '8.4 Recursion: base case and recursive case'], notes: [['Part 8 · Functions and recursion', 19], ['Part 9 · Arrays and strings', 22], ['Part 10 · Pointers and memory', 24], ['Part 11 · Structs and simple data structures', 26]] },
+  { no: 9, wk: 4, t: 'Algorithms & problem solving', subs: ['9.1 Decomposition and flowcharts', '9.2 Bubble, selection and insertion sort', '9.3 Linear and binary search', '9.4 Compression and encryption', '9.5 Numerical algorithms'], notes: [['Part 12 · Problem solving and algorithms', 29]] },
+  { no: 10, wk: 4, t: 'Introduction to programming practice', subs: ['10.1 Structure of a simple program', '10.2 Variables, data types and assignment', '10.3 Input and output', '10.4 Comments and coding standards', '10.5 if/else and loops'], notes: [['Part 2 · Your first C program', 5], ['Part 4 · Operators and expressions', 9], ['Part 5 · Input and output', 11], ['Part 6 · if, else if, switch', 13], ['Part 7 · Loops', 16]] },
+  { no: 11, wk: 5, t: 'Consolidation, assessment & group research', subs: ['11.1 Group research presentations', '11.2 Test 1', '11.3 Assignment submission and review', '11.4 Course review and exam preparation'], notes: [['Practice paper with full solutions', 37], ['Cheat sheet and 5-week study plan', 43]] },
+];
+MODULES.forEach(m => { const t = DATA.topics.find(x => x.id === 't' + m.no); m.items = t ? t.items : []; });
+const PAPERS = [
+  ...BOOKS.map(b => ({ file: b.paper, title: 'Question paper · ' + b.label, sub: b.fmt, book: b.n })),
+  { file: OUTLINE.file, title: 'SCS 1101 course outline', sub: 'Topics, weeks, assessment weights and textbooks' },
+];
+const COURSES = [
+  { id: 'scs1101', code: 'SCS 1101', name: 'Introduction to Computer Science and Programming', c: 'var(--nust)',
+    blurb: 'Five-week intensive in C for Civil & Water, Chemical and Industrial Engineering. Eleven topics, eight solved past papers, full notes.',
+    meta: [['Lecturer', 'Mr B. Guvava'], ['Credits', '10'], ['Format', '5-week intensive, 48 contact hours'], ['Language', 'C (Book 8 in C++)']], full: true },
+  { id: 'scs1100', code: 'SCS 1100', name: 'Information Technology and Computer Applications', c: 'var(--green)',
+    blurb: 'December 2024 main examination paper. Answer any four questions, 25 marks each, 3 hours.',
+    meta: [['Paper', 'December 2024 main'], ['Examiner', 'T. Zengeya'], ['Format', 'Any 4 · 25 marks each'], ['Time', '3 hours']], paper: 'papers/SCS1100_Dec2024.pdf' },
+  { id: 'scs1103', code: 'SCS 1103', name: 'Operating Systems', c: 'var(--gold)',
+    blurb: 'November 2024 final examination paper. Answer any four questions, 25 marks each, 3 hours.',
+    meta: [['Paper', 'November 2024 final'], ['Format', 'Any 4 · 25 marks each'], ['Time', '3 hours'], ['Total', '100 marks']], paper: 'papers/SCS1103_Nov2024.pdf' },
+];
+const courseById = id => COURSES.find(c => c.id === id);
+
+/* ---------------- capabilities ---------------- */
+const cap = { db: null, user: null, dl: null, me: null, canWrite: null };
+const STANDALONE = !(window.claude && typeof window.claude.use === 'function');
+const REPO = 'https://github.com/karlo990/Group_13_Discussions';
+const BOARD = 'https://claude.ai/artifact/Jh8SV3p4yi23XvUhJGaYU4';
+const canSave = () => !!cap.dl || STANDALONE;
+const issueUrl = (title) => REPO + '/issues/new?title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent('Asked from the Group 13 Study Board.\n\n');
+const posts = { scs1101: [], scs1100: [], scs1103: [] };
+const postsReady = { scs1101: false, scs1100: false, scs1103: false };
+let profiles = {};
+
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(() => { t.hidden = true; }, 3200); }
+
+async function boot() {
+  if (!window.claude || !window.claude.use) return;
+  try {
+    const [db, user, dl] = await Promise.all([claude.use('db'), claude.use('user'), claude.use('downloads')]);
+    cap.db = db; cap.user = user; cap.dl = dl;
+    if (user) { cap.me = await user.id(); cap.canWrite = await user.can('data.write'); }
+    if (db) {
+      for (const c of COURSES) {
+        db.collection('threads/' + c.id + '/posts').orderBy('at', 'desc').limit(300).onSnapshot(snap => {
+          posts[c.id] = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+          postsReady[c.id] = true;
+          refreshProfiles().then(() => rerenderDiscussion());
+        }, () => { postsReady[c.id] = true; rerenderDiscussion(); });
+      }
+    }
+  } catch (e) { /* page works read-only without capabilities */ }
+  render();
+}
+async function refreshProfiles() {
+  if (!cap.user) return;
+  const ids = new Set(); Object.values(posts).forEach(a => a.forEach(p => p.by && ids.add(p.by)));
+  if (cap.me) ids.add(cap.me);
+  if (!ids.size) return;
+  try { profiles = await cap.user.profiles([...ids]); } catch (e) {}
+}
+const nameOf = id => (profiles[id] && profiles[id].name) || (id && id === cap.me ? 'You' : 'Group member');
+const avatarOf = id => (profiles[id] && profiles[id].avatarUrl) || '';
+
+/* ---------------- routing ---------------- */
+function route() {
+  const h = (location.hash || '#home').slice(1);
+  const m = h.match(/^(scs\d{4})(?:-m(\d+))?$/);
+  if (m && courseById(m[1])) return { view: m[2] ? 'module' : 'course', course: m[1], mod: m[2] ? +m[2] : null };
+  return { view: 'home' };
+}
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+
+function crumbs(r) {
+  const c = $('#crumbs'); c.replaceChildren();
+  const add = (label, href, here) => { if (c.childNodes.length) c.append(el('span', { class: 'sep', 'aria-hidden': 'true' }, '›')); c.append(here ? el('span', { class: 'here' }, label) : el('a', { href }, label)); };
+  add('Phase I · Year I Semester I', '#home', r.view === 'home');
+  if (r.course) { const co = courseById(r.course); add(co.code, '#' + co.id, r.view === 'course'); }
+  if (r.view === 'module') add('Module ' + r.mod, '', true);
+}
+
+let currentDiscussion = null; // {course, filter, mount}
+function render() {
+  const r = route(); crumbs(r);
+  const app = $('#app'); app.replaceChildren();
+  currentDiscussion = null;
+  if (r.view === 'home') renderHome(app);
+  else if (r.view === 'course') renderCourse(app, courseById(r.course));
+  else renderModule(app, courseById(r.course), MODULES.find(m => m.no === r.mod) || MODULES[0]);
+}
+
+/* ---------------- home ---------------- */
+function totalPosts() { return Object.values(posts).reduce((a, b) => a + b.length, 0); }
+function renderHome(app) {
+  const tb = el('section', { class: 'tblock', 'aria-label': 'Title block' },
+    el('div', { class: 'tb-cell tb-crest' }, el('img', { src: 'img/crest.png', alt: 'NUST crest' })),
+    el('div', { class: 'tb-cell tb-num' }, el('span', { class: 'label' }, 'Study group'), el('div', { class: 'big13', 'aria-label': 'Group 13' }, '13'), el('span', { class: 'label' }, 'NUST · Civil & Water')),
+    el('div', { class: 'tb-cell tb-main' },
+      el('div', { class: 'tb-head' }, el('h1', {}, 'Group 13 Study Board'),
+        el('p', {}, 'Every course for this phase in one place. Pick a course, open a module, read the notes and the solved past papers, and talk it through with the group.')),
+      el('div', { class: 'tb-grid' },
+        el('div', {}, el('div', { class: 'label' }, 'Phase'), el('div', { class: 'v small' }, 'Year I · Semester I')),
+        el('div', {}, el('div', { class: 'label' }, 'Courses'), el('div', { class: 'v' }, String(COURSES.length))),
+        el('div', {}, el('div', { class: 'label' }, 'Solved papers'), el('div', { class: 'v' }, String(BOOKS.length))),
+        el('div', {}, el('div', { class: 'label' }, STANDALONE ? 'Discussion' : 'Discussion posts'), el('div', { class: 'v', id: 'tb-posts' }, cap.db ? String(totalPosts()) : (STANDALONE ? 'GitHub' : '—'))))));
+  app.append(tb);
+
+  const cs = el('div', { class: 'courses' });
+  for (const c of COURSES) {
+    const n = posts[c.id].length;
+    cs.append(el('a', { class: 'course', href: '#' + c.id, style: '--c:' + c.c },
+      el('div', { class: 'top' }, el('span', { class: 'code' }, c.code), el('span', { class: 'label' }, c.full ? '11 modules' : 'Past paper')),
+      el('h3', {}, c.name),
+      el('div', { class: 'foot' },
+        c.full ? el('span', { class: 'chip ok' }, el('span', { class: 'dot' }), 'Notes + 8 solution books') : el('span', { class: 'chip warn' }, 'Question paper on file'),
+        STANDALONE ? null : el('span', { class: 'chip' }, n + (n === 1 ? ' post' : ' posts')))));
+  }
+  app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Courses in this phase'), el('p', {}, 'Tap a course to see its modules')), cs));
+
+  const pack = el('div', { class: 'panel pack' },
+    el('div', {}, el('h3', {}, 'Study pack (.zip)'),
+      el('p', {}, 'Everything in one download: the eight solution books as PDF and Word, the C programming notes, the Field Book cheat sheets and every original question paper.'),
+      el('div', { style: 'display:flex;flex-wrap:wrap;gap:8px' },
+        canSave() ? (() => { const b = btn('Download study pack (.zip, about 13 MB)', () => saveZip(b), 'gold', 'save'); return b; })() : el('span', { class: 'chip' }, 'Downloads are not available in this view'),
+        btn('Open the C notes', () => openReader({ file: NOTES.file, title: NOTES.title, sub: '45 pages · SCS 1101', docx: NOTES.docx, course: 'scs1101', tag: 'general' }), '', 'read'))),
+    el('div', {}, el('pre', { class: 'tree' }, treeNode())));
+  app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Study pack'), el('p', {}, 'For offline revision')), pack));
+
+  const latest = el('div', { class: 'panel', id: 'latest' });
+  app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Latest in the discussion'), el('p', {}, 'Across all courses')), latest));
+  fillLatest(latest);
+}
+function treeNode() {
+  const f = document.createDocumentFragment();
+  const lines = [['Group13_SCS1101_Study_Pack/', ''], ['├─ 01_Solution_Books_PDF/', '  8 books'], ['├─ 02_Solution_Books_Word/', '  8 books'], ['├─ 03_Notes/', '  C notes, Field Book'], ['├─ 04_Past_Papers/', '  11 papers + outline'], ['└─ README.txt', '']];
+  lines.forEach(([a, b], i) => { f.append(a); if (b) f.append(el('i', {}, b)); if (i < lines.length - 1) f.append('\n'); });
+  return f;
+}
+function githubDiscuss(course, tag) {
+  const co = courseById(course) || COURSES[0];
+  const label = co.code + (tag && tag !== 'all' && tag !== 'general' ? ' · ' + tagLabel(tag) : '');
+  return el('div', { class: 'composer' },
+    el('p', { style: 'margin:0;font-size:14px' }, 'On this copy of the board, Group 13 talks it through on GitHub. Each question is an issue in the repo; reply in its comments.'),
+    el('div', { class: 'row' },
+      el('a', { class: 'btn primary', href: issueUrl('[' + label + '] '), target: '_blank', rel: 'noopener' }, ico('chat'), 'Ask about ' + label),
+      el('span', { style: 'display:flex;gap:6px;flex-wrap:wrap' },
+        el('a', { class: 'btn', href: REPO + '/issues', target: '_blank', rel: 'noopener' }, 'All threads'),
+        el('a', { class: 'btn ghost', href: BOARD, target: '_blank', rel: 'noopener' }, 'Live board on Claude'))));
+}
+function fillLatest(box) {
+  box.replaceChildren();
+  if (!cap.db) { box.append(githubDiscuss('scs1101', 'all')); return; }
+  const all = []; for (const c of COURSES) posts[c.id].forEach(p => all.push(Object.assign({ course: c.id }, p)));
+  all.sort((a, b) => (b.at || 0) - (a.at || 0));
+  const top = all.filter(p => !p.re).slice(0, 6);
+  if (!top.length) { box.append(el('div', { class: 'empty' }, 'No posts yet. Open a course or a module and ask the first question; it shows up here for the whole group.')); return; }
+  for (const p of top) box.append(postEl(p, p.course, [], true));
+}
+
+/* ---------------- course ---------------- */
+function renderCourse(app, c) {
+  const head = el('section', { class: 'chead' },
+    el('div', { class: 'chead-top' }, el('span', { class: 'code' }, c.code), el('h1', {}, c.name), el('p', {}, c.blurb)),
+    el('div', { class: 'meta' }, ...c.meta.map(([k, v]) => el('div', {}, el('div', { class: 'label' }, k), el('div', { class: 'v' }, v)))));
+  if (c.full) head.append(el('div', { class: 'assess' }, el('div', { class: 'label' }, 'Assessment · from the course outline'),
+    el('div', { class: 'abar', role: 'img', 'aria-label': 'Final exam 60 percent; test 10; assignment 1 10; assignment 2 10; group research 10' },
+      el('div', { class: 'ex', style: 'flex:60' }, 'Final exam 60%'), el('div', { class: 'ca', style: 'flex:10' }, 'Test 10'),
+      el('div', { class: 'ca', style: 'flex:10' }, 'Asg 1 10'), el('div', { class: 'ca', style: 'flex:10' }, 'Asg 2 10'), el('div', { class: 'gr', style: 'flex:10' }, 'Group 10'))));
+  app.append(head);
+
+  if (c.full) {
+    const mods = el('div', { class: 'mods' });
+    const maxN = Math.max(...MODULES.map(m => m.items.length));
+    for (const m of MODULES) {
+      const books = new Set(m.items.map(i => i.book));
+      const heat = el('span', { class: 'heat', title: 'Appears in ' + books.size + ' of 8 papers', 'aria-label': 'Appears in ' + books.size + ' of 8 papers' });
+      for (let i = 1; i <= 8; i++) heat.append(el('i', { class: books.has(i) ? 'on' : '', style: 'height:' + (books.has(i) ? 14 : 6) + 'px' }));
+      mods.append(el('a', { class: 'mod', href: '#scs1101-m' + m.no },
+        el('span', { class: 'no' }, String(m.no).padStart(2, '0')),
+        el('span', { class: 'body' }, el('h3', {}, m.t),
+          el('span', { class: 'row' }, el('span', { class: 'chip' }, 'Week ' + m.wk), el('span', { class: 'chip' + (m.items.length ? ' ok' : '') }, m.items.length + ' exam parts')),
+          heat)));
+    }
+    app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Modules'), el('p', {}, 'Numbered as in the course outline · gold bars show which of the 8 papers test it')), mods));
+    app.append(librarySection());
+  } else {
+    const lib = el('div', { class: 'panel lib' },
+      el('div', { class: 'lrow' }, el('span', { class: 'n doc' }, 'PDF'), el('div', {}, el('h3', {}, c.meta[0][1] + ' question paper'), el('p', {}, c.blurb)),
+        el('div', { class: 'acts' }, btn('Read', () => openReader({ file: c.paper, title: c.code + ' · ' + c.meta[0][1], sub: c.name, course: c.id, tag: 'general' }), 'primary', 'read'),
+          canSave() ? btn('Save PDF', () => saveFile(c.paper, c.code.replace(' ', '') + '_' + c.meta[0][1].replace(/\s+/g, '_') + '.pdf'), '', 'save') : null)));
+    app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Paper'), el('p', {}, 'No solution book yet: work it through together below')), lib));
+  }
+  app.append(discussionSection(c.id, 'all', c.full ? 'Course discussion' : 'Discussion'));
+}
+
+let libTab = 'books';
+function librarySection() {
+  const sec = el('section', { class: 'sec' });
+  const tabs = el('div', { class: 'tabs', role: 'tablist' });
+  const body = el('div', { class: 'panel lib' });
+  const set = (t) => { libTab = t; [...tabs.children].forEach(b => b.setAttribute('aria-selected', String(b.dataset.t === t))); fillLib(body); };
+  [['books', 'Solution books'], ['papers', 'Question papers'], ['notes', 'Notes']].forEach(([t, l]) => tabs.append(el('button', { class: 'tab', role: 'tab', type: 'button', 'data-t': t, 'aria-selected': String(t === libTab), onclick: () => set(t) }, l)));
+  sec.append(el('div', { class: 'sec-h' }, el('h2', {}, 'Library'), el('p', {}, 'Read in the page, or save to your phone')), tabs, body);
+  fillLib(body);
+  return sec;
+}
+function fillLib(body) {
+  body.replaceChildren();
+  if (libTab === 'books') for (const b of BOOKS) {
+    body.append(el('div', { class: 'lrow' }, el('span', { class: 'n' }, String(b.n)),
+      el('div', {}, el('h3', {}, 'Solution Book ' + b.n + ' · ' + b.label), el('p', {}, b.fmt + ' · ' + b.pages + ' pages')),
+      el('div', { class: 'acts' },
+        btn('Read', () => openBook(b, 1), 'primary', 'read'),
+        btn('Paper', () => openReader({ file: b.paper, title: 'Question paper · ' + b.label, sub: b.fmt, course: 'scs1101', tag: 'b' + b.n }), '', 'paper'),
+        canSave() ? btn('PDF', () => saveFile(b.file, b.file.split('/').pop()), 'ghost', 'save') : null,
+        canSave() ? btn('Word', () => saveFile(b.docx, b.docx.split('/').pop()), 'ghost', 'save') : null)));
+  } else if (libTab === 'papers') for (const p of PAPERS) {
+    body.append(el('div', { class: 'lrow' }, el('span', { class: 'n doc' }, p.book ? 'B' + p.book : 'OUT'),
+      el('div', {}, el('h3', {}, p.title), el('p', {}, p.sub)),
+      el('div', { class: 'acts' }, btn('Read', () => openReader({ file: p.file, title: p.title, sub: p.sub, course: 'scs1101', tag: p.book ? 'b' + p.book : 'general' }), 'primary', 'read'),
+        p.book ? btn('Solutions', () => openBook(BOOKS[p.book - 1], 1), '', 'read') : null,
+        canSave() ? btn('PDF', () => saveFile(p.file, p.file.split('/').pop()), 'ghost', 'save') : null)));
+  } else {
+    body.append(el('div', { class: 'lrow' }, el('span', { class: 'n doc' }, 'C'),
+      el('div', {}, el('h3', {}, NOTES.title), el('p', {}, 'Explained like you are five, with MIT and arXiv sources, worked questions, flowcharts, a practice paper and a 5-week plan · 45 pages')),
+      el('div', { class: 'acts' }, btn('Read', () => openReader({ file: NOTES.file, title: NOTES.title, sub: '45 pages', docx: NOTES.docx, course: 'scs1101', tag: 'general' }), 'primary', 'read'),
+        canSave() ? btn('PDF', () => saveFile(NOTES.file, 'C_Programming_Notes_SCS1101.pdf'), 'ghost', 'save') : null,
+        canSave() ? btn('Word', () => saveFile(NOTES.docx, 'C_Programming_Notes_SCS1101.docx'), 'ghost', 'save') : null)));
+    body.append(el('div', { class: 'lrow' }, el('span', { class: 'n doc' }, 'FB'),
+      el('div', {}, el('h3', {}, 'SCS 1101 Field Book'), el('p', {}, 'Handwritten-style interactive cheat sheets, one per paper. Opens in a new tab.')),
+      el('div', { class: 'acts' }, el('a', { class: 'btn', href: STANDALONE ? 'notes/fieldbook.html' : 'https://claude.ai/artifact/7n8zK89uKkkthYRTaSdsoH', target: '_blank', rel: 'noopener' }, 'Open Field Book'))));
+    body.append(el('div', { class: 'lrow' }, el('span', { class: 'n doc' }, 'OUT'),
+      el('div', {}, el('h3', {}, OUTLINE.title), el('p', {}, 'Topics by week, contact hours, assessment weights and recommended textbooks')),
+      el('div', { class: 'acts' }, btn('Read', () => openReader({ file: OUTLINE.file, title: OUTLINE.title, sub: '5 pages', course: 'scs1101', tag: 'general' }), 'primary', 'read'))));
+  }
+}
+
+/* ---------------- module ---------------- */
+function renderModule(app, c, m) {
+  app.append(el('section', { class: 'mhead' }, el('div', { class: 'no' }, String(m.no).padStart(2, '0')),
+    el('div', { class: 'txt' }, el('span', { class: 'label' }, c.code + ' · Module ' + m.no + ' · Week ' + m.wk), el('h1', {}, m.t),
+      el('div', { style: 'display:flex;flex-wrap:wrap;gap:6px' }, el('span', { class: 'chip ok' }, m.items.length + ' exam parts'), el('span', { class: 'chip' }, new Set(m.items.map(i => i.book)).size + ' of 8 papers')))));
+
+  const left = el('div', { class: 'sec' });
+  const subs = el('div', { class: 'panel list' }, ...m.subs.map(s => { const [k, ...r] = s.split(' '); return el('div', { class: 'li static' }, el('span', { class: 'k' }, k), el('span', { class: 't' }, r.join(' ')), el('span')); }));
+  left.append(el('div', { class: 'sec-h' }, el('h2', {}, 'What the outline covers')), subs);
+  const notes = el('div', { class: 'panel list' });
+  if (m.notes.length) for (const [t, pg] of m.notes) notes.append(el('button', { class: 'li', type: 'button', onclick: () => openReader({ file: NOTES.file, title: NOTES.title, sub: t, docx: NOTES.docx, course: 'scs1101', tag: 'm' + m.no, page: pg }) }, el('span', { class: 'k' }, 'Notes'), el('span', { class: 't' }, t), el('span', { class: 'pg' }, 'p. ' + pg)));
+  else notes.append(el('div', { class: 'empty' }, 'This is a theory module. The C notes focus on programming, so learn it from the past-exam answers on the right; each one is written as a model answer with marks.'));
+  left.append(el('div', { class: 'sec-h' }, el('h2', {}, 'Read in the notes')), notes);
+  if (m.no === 11) left.append(el('div', { class: 'panel list' }, el('button', { class: 'li', type: 'button', onclick: () => openReader({ file: OUTLINE.file, title: OUTLINE.title, sub: 'Assessment and textbooks', course: 'scs1101', tag: 'm11', page: 4 }) }, el('span', { class: 'k' }, 'Outline'), el('span', { class: 't' }, 'Assessment dates, weights and textbooks'), el('span', { class: 'pg' }, 'p. 4'))));
+
+  const right = el('div', { class: 'sec' });
+  const qs = el('div', { class: 'panel list' });
+  const byBook = {}; m.items.forEach(i => (byBook[i.book] = byBook[i.book] || []).push(i));
+  const keys = Object.keys(byBook).map(Number).sort((a, b) => a - b);
+  if (!keys.length) qs.append(el('div', { class: 'empty' }, 'No past paper in the set asks about this module directly yet, which makes it a likely surprise question. Use the course outline topics on the left as your checklist.'));
+  for (const k of keys) {
+    const b = BOOKS[k - 1];
+    qs.append(el('div', { class: 'grp' }, el('b', {}, 'Book ' + k + ' · ' + b.label), btn('Paper', () => openReader({ file: b.paper, title: 'Question paper · ' + b.label, sub: b.fmt, course: 'scs1101', tag: 'm' + m.no }), 'ghost', 'paper')));
+    for (const i of byBook[k]) qs.append(el('button', { class: 'li', type: 'button', onclick: () => openBook(b, i.page, 'm' + m.no) }, el('span', { class: 'k' }, i.q.replace('Question ', 'Q')), el('span', { class: 't' }, i.title), el('span', { class: 'pg' }, 'p. ' + i.page)));
+  }
+  right.append(el('div', { class: 'sec-h' }, el('h2', {}, 'Past-exam questions'), el('p', {}, 'Tap to open the worked answer')), qs);
+  app.append(el('div', { class: 'two' }, left, right));
+
+  const nav = el('div', { style: 'display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap' },
+    m.no > 1 ? el('a', { class: 'btn', href: '#scs1101-m' + (m.no - 1) }, '‹ Module ' + (m.no - 1)) : el('span'),
+    m.no < 11 ? el('a', { class: 'btn', href: '#scs1101-m' + (m.no + 1) }, 'Module ' + (m.no + 1) + ' ›') : el('span'));
+  app.append(nav);
+  app.append(discussionSection('scs1101', 'm' + m.no, 'Discuss module ' + m.no));
+}
+
+/* ---------------- discussion ---------------- */
+const tagLabel = (t) => t === 'general' ? 'General' : t.startsWith('m') ? 'Module ' + t.slice(1) : t.startsWith('b') ? 'Book ' + t.slice(1) : t;
+function tagOptions(course) {
+  if (course !== 'scs1101') return [['general', 'General']];
+  return [['general', 'General'], ...MODULES.map(m => ['m' + m.no, 'Module ' + m.no + ' · ' + m.t]), ...BOOKS.map(b => ['b' + b.n, 'Book ' + b.n + ' · ' + b.label])];
+}
+let discFilter = 'all';
+let replyTo = null;
+function discussionSection(course, fixedTag, title) {
+  const sec = el('section', { class: 'sec', id: 'discussion' });
+  const box = el('div', { class: 'panel disc' });
+  sec.append(el('div', { class: 'sec-h' }, el('h2', {}, title), el('p', {}, 'Shared live with everyone in Group 13')), box);
+  currentDiscussion = { course, fixedTag, box };
+  if (fixedTag === 'all') discFilter = 'all';
+  replyTo = null;
+  drawDiscussion();
+  return sec;
+}
+function rerenderDiscussion() {
+  const tp = $('#tb-posts'); if (tp) tp.textContent = String(totalPosts());
+  const latest = $('#latest'); if (latest) fillLatest(latest);
+  if (currentDiscussion) drawDiscussion(true);
+}
+function drawDiscussion(keepDraft) {
+  const { course, fixedTag, box } = currentDiscussion;
+  const draft = keepDraft ? ($('#post-text') || {}).value : '';
+  const draftTag = keepDraft ? ($('#post-tag') || {}).value : null;
+  box.replaceChildren();
+  if (!cap.db) { box.append(githubDiscuss(course, fixedTag)); return; }
+  if (cap.canWrite === false) box.append(el('div', { class: 'notice' }, 'You can read the discussion. To post, ask Karl to give you Contributor access to this page.'));
+  else {
+    const ta = el('textarea', { id: 'post-text', maxlength: '2000', placeholder: replyTo ? 'Write your reply' : 'Ask a question, share a trick, or post an answer for the group', 'aria-label': 'Message' });
+    ta.value = draft || '';
+    const sel = el('select', { id: 'post-tag', 'aria-label': 'Topic of the post' }, ...tagOptions(course).map(([v, l]) => el('option', { value: v }, l)));
+    sel.value = draftTag || (fixedTag !== 'all' ? fixedTag : (discFilter !== 'all' ? discFilter : 'general'));
+    const send = btn(replyTo ? 'Post reply' : 'Post', () => submitPost(course, ta, sel, send), 'primary', 'chat');
+    const comp = el('div', { class: 'composer' });
+    if (replyTo) comp.append(el('div', { class: 'replying' }, 'Replying to ' + nameOf(replyTo.by), btn('Cancel', () => { replyTo = null; drawDiscussion(true); }, 'ghost')));
+    comp.append(ta, el('div', { class: 'row' }, replyTo ? el('span') : sel, send));
+    box.append(comp);
+  }
+  if (course === 'scs1101' && fixedTag === 'all') {
+    const tagsUsed = [...new Set(posts[course].map(p => p.tag).filter(Boolean))].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+    if (tagsUsed.length) {
+      const f = el('div', { class: 'filters', role: 'group', 'aria-label': 'Filter posts' });
+      ['all', ...tagsUsed].forEach(t => f.append(el('button', { class: 'fchip', type: 'button', 'aria-pressed': String(discFilter === t), onclick: () => { discFilter = t; drawDiscussion(true); } }, t === 'all' ? 'All' : tagLabel(t))));
+      box.append(f);
+    }
+  }
+  const list = posts[course];
+  const tag = fixedTag !== 'all' ? fixedTag : discFilter;
+  const roots = list.filter(p => !p.re && (tag === 'all' || p.tag === tag)).sort((a, b) => (b.at || 0) - (a.at || 0));
+  if (!postsReady[course]) { box.append(el('div', { class: 'empty' }, 'Loading the discussion…')); return; }
+  if (!roots.length) { box.append(el('div', { class: 'empty' }, fixedTag !== 'all' ? 'Nothing on this module yet. Ask the first question and the group will see it here and on the course page.' : 'No posts yet. Ask the first question; everyone in Group 13 will see it.')); return; }
+  for (const p of roots) {
+    const reps = list.filter(x => x.re === p.id).sort((a, b) => (a.at || 0) - (b.at || 0));
+    box.append(postEl(p, course, reps, false));
+  }
+}
+function when(ms) {
+  if (!ms) return '';
+  const d = new Date(ms), diff = (Date.now() - ms) / 1000;
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return Math.floor(diff / 60) + ' min ago';
+  if (diff < 86400) return Math.floor(diff / 3600) + ' h ago';
+  return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) + ' ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+}
+function postEl(p, course, replies, compact) {
+  const av = avatarOf(p.by);
+  const tagBtn = p.tag && p.tag !== 'general' && course === 'scs1101' ? el('button', { class: 'tagref', type: 'button', onclick: () => { if (p.tag.startsWith('m')) location.hash = '#scs1101-' + p.tag; else openBook(BOOKS[+p.tag.slice(1) - 1], 1); } }, tagLabel(p.tag)) : null;
+  const courseRef = compact ? el('a', { class: 'tagref', href: '#' + course, style: 'text-decoration:none' }, courseById(course).code) : null;
+  const ops = el('div', { class: 'ops' });
+  if (!compact && !p.re && cap.canWrite !== false) ops.append(btn('Reply', () => { replyTo = p; drawDiscussion(true); const t = $('#post-text'); if (t) t.focus(); }, 'ghost'));
+  if (p.by && p.by === cap.me) {
+    const del = btn('Delete', () => {
+      if (del.dataset.armed) { cap.db.doc('threads/' + course + '/posts/' + p.id).delete().catch(() => toast('Could not delete. Try again.')); }
+      else { del.dataset.armed = '1'; del.textContent = 'Tap again to delete'; setTimeout(() => { if (del.isConnected) { delete del.dataset.armed; del.textContent = 'Delete'; } }, 3000); }
+    }, 'ghost');
+    ops.append(del);
+  }
+  const body = el('div', {},
+    el('div', { class: 'who' }, el('b', {}, nameOf(p.by)), courseRef, tagBtn, el('span', { class: 'when' }, when(p.at))),
+    el('p', { class: 'text' }, p.text || ''),
+    ops.childNodes.length ? ops : null);
+  if (replies && replies.length) body.append(el('div', { class: 'replies' }, ...replies.map(r => postEl(r, course, [], false))));
+  return el('article', { class: 'post' }, av ? el('img', { class: 'av', src: av, alt: '' }) : el('span', { class: 'av' }), body);
+}
+async function submitPost(course, ta, sel, sendBtn) {
+  const text = ta.value.trim();
+  if (!text) { toast('Write something first.'); ta.focus(); return; }
+  if (!cap.me) { toast('Sign in to Claude to post.'); return; }
+  sendBtn.disabled = true;
+  const doc = { by: cap.me, text: text.slice(0, 2000), tag: replyTo ? (replyTo.tag || 'general') : sel.value, at: Date.now() };
+  if (replyTo) doc.re = replyTo.id;
+  try {
+    await cap.db.collection('threads/' + course + '/posts').add(doc);
+    replyTo = null; ta.value = ''; toast('Posted to Group 13.');
+    drawDiscussion();
+  } catch (e) {
+    if (e && e.code === 'invalid_argument') { cap.canWrite = false; drawDiscussion(); toast('Posting is not allowed for your access level.'); }
+    else if (e && e.code === 'quota_exceeded') toast('The discussion is full. Ask Karl to clear old posts.');
+    else toast('Could not post. Check your connection and try again.');
+    sendBtn.disabled = false;
+  }
+}
+
+/* ---------------- downloads ---------------- */
+const fileCache = new Map();
+async function getBytes(url) {
+  if (fileCache.has(url)) return fileCache.get(url);
+  const b64 = url.endsWith('.docx') && !STANDALONE;
+  const p = fetch(b64 ? url + '.b64.txt' : url).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return b64 ? r.text() : r.arrayBuffer(); })
+    .then(v => { if (!b64) return v; const bin = atob(v.trim()); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u.buffer; });
+  fileCache.set(url, p);
+  try { return await p; } catch (e) { fileCache.delete(url); throw e; }
+}
+function linkDownload(url, filename) { const a = document.createElement('a'); a.href = url; a.download = filename; document.body.append(a); a.click(); a.remove(); }
+async function saveFile(url, filename) {
+  if (STANDALONE) { linkDownload(url, filename); return; }
+  if (!cap.dl) { toast('Saving files is not available in this view.'); return; }
+  try {
+    toast('Preparing ' + filename + '…');
+    const buf = await getBytes(url);
+    await cap.dl.save({ filename, data: new Blob([buf]) });
+    toast('Saved ' + filename + '.');
+  } catch (e) {
+    if (e && e.code === 'declined') return;
+    toast(e && e.code === 'rate_limited' ? 'A save is already waiting for you to confirm.' : 'Could not save the file. Try again.');
+  }
+}
+
+async function saveZip(button) {
+  if (STANDALONE) { linkDownload('Group13_SCS1101_Study_Pack.zip', 'Group13_SCS1101_Study_Pack.zip'); return; }
+  if (!cap.dl) { toast('Saving files is not available in this view.'); return; }
+  if (button) button.disabled = true;
+  try {
+    toast('Building the study pack…');
+    if (!window.JSZip) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+    const zip = new JSZip(); const root = zip.folder('Group13_SCS1101_Study_Pack');
+    const jobs = [];
+    BOOKS.forEach(b => { jobs.push(['01_Solution_Books_PDF/' + b.file.split('/').pop(), b.file]); jobs.push(['02_Solution_Books_Word/' + b.docx.split('/').pop(), b.docx]); });
+    jobs.push(['03_Notes/C_Programming_Notes_SCS1101.pdf', NOTES.file], ['03_Notes/C_Programming_Notes_SCS1101.docx', NOTES.docx], ['03_Notes/SCS1101_Field_Book_Cheat_Sheets.html', 'notes/fieldbook.html'], ['README.txt', 'notes/README.txt']);
+    PAPERS.forEach(p => jobs.push(['04_Past_Papers/' + p.file.split('/').pop(), p.file]));
+    jobs.push(['04_Past_Papers/SCS1100_Dec2024.pdf', 'papers/SCS1100_Dec2024.pdf'], ['04_Past_Papers/SCS1103_Nov2024.pdf', 'papers/SCS1103_Nov2024.pdf']);
+    let done = 0;
+    await Promise.all(jobs.map(async ([name, url]) => { root.file(name, await getBytes(url)); done++; }));
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+    await cap.dl.save({ filename: 'Group13_SCS1101_Study_Pack.zip', data: blob });
+    toast('Saved the study pack.');
+  } catch (e) {
+    if (!(e && e.code === 'declined')) toast(e && e.code === 'rate_limited' ? 'A save is already waiting for you to confirm.' : 'Could not build the zip. Try again.');
+  } finally { if (button) button.disabled = false; }
+}
+
+/* ---------------- PDF reader (pdf.js) ---------------- */
+let pdfjsReady = null;
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('load ' + src)); document.head.append(s); }); }
+function loadPdfJs() {
+  if (!pdfjsReady) pdfjsReady = (async () => {
+    const base = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+    await loadScript(base + 'pdf.min.js');
+    await loadScript(base + 'pdf.worker.min.js');
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = base + 'pdf.worker.min.js';
+    return window.pdfjsLib;
+  })().catch(e => { pdfjsReady = null; throw e; });
+  return pdfjsReady;
+}
+function openBook(b, page, tag) {
+  openReader({ file: b.file, title: 'Solution Book ' + b.n + ' · ' + b.label, sub: b.fmt, docx: b.docx, paper: b.paper, course: 'scs1101', tag: tag || ('b' + b.n), page: page || 1 });
+}
+let reader = null;
+async function openReader(o) {
+  const R = $('#reader'); R.hidden = false; document.body.style.overflow = 'hidden';
+  const token = {}; reader = token;
+  const pgind = el('span', { class: 'pgind' }, '–');
+  const scroll = el('div', { class: 'rscroll', tabindex: '0' });
+  const pagesBox = el('div', { class: 'pages' });
+  scroll.append(el('div', { class: 'rstatus' }, 'Opening…'));
+  let scale = null, doc = null, observer = null, fitW = 0;
+  const zoom = (f) => { if (!doc) return; const cur = currentPage(); scale = Math.max(.5, Math.min(3, (scale || 1) * f)); layout(cur); };
+  const fit = () => { if (!doc) return; const cur = currentPage(); scale = null; layout(cur); };
+  const close = () => { reader = null; R.hidden = true; R.replaceChildren(); document.body.style.overflow = ''; if (observer) observer.disconnect(); if (doc) doc.destroy(); document.removeEventListener('keydown', onKey); };
+  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', onKey);
+  const discuss = () => { close(); const target = o.course === 'scs1101' && o.tag && o.tag.startsWith('m') ? '#scs1101-' + o.tag : '#' + (o.course || 'scs1101'); if (location.hash !== target) location.hash = target; setTimeout(() => { const d = $('#discussion'); if (d) d.scrollIntoView({ behavior: 'smooth' }); const s = $('#post-tag'); if (s && o.tag) { const opt = [...s.options].find(x => x.value === o.tag); if (opt) s.value = o.tag; } }, 60); };
+  R.replaceChildren(
+    el('div', { class: 'rbar' },
+      btn('Close', close, 'ghost', 'x'),
+      el('div', { class: 'ttl' }, el('b', {}, o.title), el('span', {}, o.sub || '')),
+      el('div', { class: 'grpb' }, btn('−', () => zoom(1 / 1.2), 'ghost'), btn('Fit', fit, 'ghost'), btn('+', () => zoom(1.2), 'ghost'), pgind),
+      el('div', { class: 'grpb' },
+        o.paper ? btn('Question paper', () => openReader({ file: o.paper, title: o.title.replace(/^Solution Book \d+/, 'Question paper'), sub: o.sub, course: o.course, tag: o.tag }), '', 'paper') : null,
+        canSave() ? btn('Save', () => saveFile(o.file, o.file.split('/').pop()), '', 'save') : null,
+        cap.db ? btn('Discuss', discuss, 'primary', 'chat') : el('a', { class: 'btn primary', href: issueUrl('[' + o.title + '] '), target: '_blank', rel: 'noopener' }, ico('chat'), 'Discuss'))),
+    scroll);
+  scroll.focus({ preventScroll: true });
+  function currentPage() {
+    const kids = [...pagesBox.children]; const top = scroll.scrollTop + 40;
+    let n = 1; for (const k of kids) { if (k.offsetTop <= top) n = +k.dataset.n; else break; } return n;
+  }
+  scroll.addEventListener('scroll', () => { if (doc) pgind.textContent = currentPage() + ' / ' + doc.numPages; }, { passive: true });
+  async function layout(goto) {
+    if (observer) observer.disconnect();
+    pagesBox.replaceChildren();
+    const first = await doc.getPage(1); const v1 = first.getViewport({ scale: 1 });
+    fitW = Math.min(scroll.clientWidth - 24, 980);
+    const s = scale || fitW / v1.width;
+    observer = new IntersectionObserver(entries => { for (const en of entries) if (en.isIntersecting) draw(en.target); }, { root: scroll, rootMargin: '600px 0px' });
+    for (let i = 1; i <= doc.numPages; i++) {
+      const box = el('div', { class: 'pg', 'data-n': String(i), style: 'width:' + Math.round(v1.width * s) + 'px;height:' + Math.round(v1.height * s) + 'px' }, el('span', { class: 'pnum' }, String(i)));
+      box._s = s; pagesBox.append(box); observer.observe(box);
+    }
+    if (!pagesBox.isConnected) { scroll.replaceChildren(pagesBox); }
+    const target = pagesBox.children[(goto || 1) - 1];
+    scroll.scrollTop = target ? target.offsetTop - 12 : 0;
+    pgind.textContent = (goto || 1) + ' / ' + doc.numPages;
+  }
+  async function draw(box) {
+    if (box._drawn === box._s) return; box._drawn = box._s;
+    const page = await doc.getPage(+box.dataset.n);
+    const vp = page.getViewport({ scale: box._s });
+    const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    const c = document.createElement('canvas'); c.width = Math.floor(vp.width * dpr); c.height = Math.floor(vp.height * dpr);
+    c.setAttribute('aria-label', 'Page ' + box.dataset.n);
+    const ctx = c.getContext('2d');
+    await page.render({ canvasContext: ctx, viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null }).promise;
+    if (reader !== token) return;
+    const old = box.querySelector('canvas'); if (old) old.remove();
+    box.prepend(c);
+    box.querySelectorAll('.lk').forEach(x => x.remove());
+    try {
+      const ann = await page.getAnnotations({ intent: 'display' });
+      for (const a of ann) {
+        if (a.subtype !== 'Link') continue;
+        const [x1, y1, x2, y2] = vp.convertToViewportRectangle(a.rect);
+        const st = 'left:' + Math.min(x1, x2) + 'px;top:' + Math.min(y1, y2) + 'px;width:' + Math.abs(x2 - x1) + 'px;height:' + Math.abs(y2 - y1) + 'px';
+        if (a.url) box.append(el('a', { class: 'lk', href: a.url, target: '_blank', rel: 'noopener', style: st, title: a.url, 'aria-label': 'Open ' + a.url }));
+        else if (a.dest) box.append(el('button', { class: 'lk', type: 'button', style: st, 'aria-label': 'Jump in document', onclick: () => jumpTo(a.dest) }));
+      }
+    } catch (e) {}
+  }
+  async function jumpTo(dest) {
+    try {
+      const d = typeof dest === 'string' ? await doc.getDestination(dest) : dest;
+      if (!d) return;
+      const idx = typeof d[0] === 'object' ? await doc.getPageIndex(d[0]) : d[0];
+      const t = pagesBox.children[idx]; if (t) scroll.scrollTop = t.offsetTop - 12;
+    } catch (e) {}
+  }
+  try {
+    const [lib, buf] = await Promise.all([loadPdfJs(), getBytes(o.file)]);
+    if (reader !== token) return;
+    doc = await lib.getDocument({ data: new Uint8Array(buf.slice(0)) }).promise;
+    if (reader !== token) { doc.destroy(); return; }
+    scroll.replaceChildren(pagesBox);
+    await layout(Math.min(o.page || 1, doc.numPages));
+  } catch (e) {
+    if (reader !== token) return;
+    scroll.replaceChildren(el('div', { class: 'rstatus' }, 'This PDF could not be opened here. ', canSave() ? btn('Save it instead', () => saveFile(o.file, o.file.split('/').pop()), 'primary', 'save') : 'Check your connection and try again.'));
+  }
+}
+
+render();
+boot();
+})();
+</script>
+
+</body>
+</html>

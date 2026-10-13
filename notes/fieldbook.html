@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="img/crest.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>SCS 1101 Field Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@300;400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: an engineer's field book on graph paper (light) / blueprint (dark).
+   Sheet tabs across the top, one sheet at a time, title block at the foot. */
+:root{
+  --paper:#f3f7f5; --grid:#d6e5de; --grid-major:#bcd3c8;
+  --ink:#1c3766; --ink-soft:#4b5d78; --pencil:#66707c;
+  --red:#b8322a; --hl:rgba(255,214,64,.45); --card:#fbfdfc;
+  --code-bg:#e9f1ed; --line:#9fb6ab; --ok:#2e7d4f;
+  --f-hand:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --f-body:"Kalam","Segoe Print","Comic Sans MS",cursive;
+  --f-code:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0f2236; --grid:#183553; --grid-major:#21466c;
+  --ink:#e6eefb; --ink-soft:#a9bcd6; --pencil:#8fa3bd;
+  --red:#ff8f80; --hl:rgba(255,214,64,.22); --card:#132a42;
+  --code-bg:#0b1b2c; --line:#3a5f86; --ok:#7fd6a1; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0f2236; --grid:#183553; --grid-major:#21466c;
+  --ink:#e6eefb; --ink-soft:#a9bcd6; --pencil:#8fa3bd;
+  --red:#ff8f80; --hl:rgba(255,214,64,.22); --card:#132a42;
+  --code-bg:#0b1b2c; --line:#3a5f86; --ok:#7fd6a1; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid-major) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-major) 1px,transparent 1px),
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:100px 100px,100px 100px,20px 20px,20px 20px;
+  color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:18px;padding-block:22px 40px}
+h1,h2,h3{font-family:var(--f-hand);font-weight:700;line-height:1.1;text-wrap:balance;margin:0}
+h1{font-size:clamp(40px,7vw,62px)}
+h2{font-size:clamp(30px,5vw,40px);margin-bottom:6px}
+h3{font-size:26px;margin-bottom:4px}
+p{margin:.35em 0}
+.sub{color:var(--ink-soft);font-size:18px;max-width:62ch}
+.hl{background:linear-gradient(transparent 55%,var(--hl) 55%);padding:0 2px}
+.red{color:var(--red)}
+.pencil{color:var(--pencil)}
+header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.stamp{font-family:var(--f-hand);font-size:22px;color:var(--red);border:2.5px solid var(--red);border-radius:8px;padding:2px 12px;transform:rotate(-4deg);display:inline-block}
+
+/* sheet tabs */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin:6px 0 16px;scrollbar-width:thin}
+.tabs button{flex:0 0 auto;font-family:var(--f-hand);font-size:22px;color:var(--ink);background:var(--card);
+  border:2px solid var(--line);border-bottom-width:4px;border-radius:10px 10px 4px 4px;padding:2px 14px;cursor:pointer}
+.tabs button[aria-selected="true"]{border-color:var(--ink);background:var(--hl)}
+.tabs button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px dashed var(--red);outline-offset:2px}
+
+.sheet{background:var(--card);border:2px solid var(--ink);border-radius:6px;padding:18px clamp(14px,3vw,28px);
+  box-shadow:6px 6px 0 var(--grid-major);position:relative}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px 22px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
+.box{border:1.5px dashed var(--line);border-radius:6px;padding:10px 12px;min-width:0}
+.note{font-family:var(--f-hand);font-size:22px;color:var(--red);line-height:1.15}
+.note::before{content:"\2192  "}
+pre{font-family:var(--f-code);font-size:13.5px;line-height:1.5;background:var(--code-bg);color:var(--ink);
+  border-left:4px solid var(--ink);padding:10px 12px;border-radius:4px;overflow-x:auto;margin:6px 0}
+code{font-family:var(--f-code);font-size:.85em}
+.cm{color:var(--pencil)}
+.kw{font-weight:600}
+table{border-collapse:collapse;width:100%;font-size:16px}
+.tbl{overflow-x:auto}
+th,td{border:1.5px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+th{font-family:var(--f-hand);font-size:21px;font-weight:700}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-code);font-size:14px}
+
+/* recipe letters */
+.recipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;margin:10px 0}
+.step{border:2px solid var(--ink);border-radius:8px;padding:6px 10px;min-width:0}
+.step b{font-family:var(--f-hand);font-size:40px;line-height:1;color:var(--red);display:block}
+.step span{font-size:15px}
+
+/* blanks for test mode */
+.blank{border-bottom:2px solid var(--red);padding:0 2px;cursor:default}
+.testing .blank{color:transparent;background:var(--hl);cursor:pointer;border-radius:3px}
+.testing .blank.shown{color:var(--ok)}
+.btn{font-family:var(--f-hand);font-size:22px;color:var(--ink);background:var(--paper);border:2px solid var(--ink);
+  border-radius:8px;padding:0 14px;cursor:pointer}
+.btn[aria-pressed="true"]{background:var(--hl)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:4px 0 12px}
+
+/* flashcards */
+.card{perspective:900px;min-height:240px;min-width:0}
+.card button{all:unset;display:block;width:100%;height:100%;cursor:pointer;min-height:240px}
+.card .inner{position:relative;width:100%;min-height:240px;transition:transform .5s;transform-style:preserve-3d}
+.card.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border:2px solid var(--ink);border-radius:8px;
+  padding:12px 14px;background:var(--card);overflow:auto}
+.face.front{display:flex;flex-direction:column;justify-content:space-between}
+.face.front .q{font-family:var(--f-hand);font-size:30px;line-height:1.05}
+.face.front .tag{font-size:14px;color:var(--pencil)}
+.face.back{transform:rotateY(180deg);font-size:15px;line-height:1.4}
+.face.back .eli{color:var(--red);font-family:var(--f-hand);font-size:20px;display:block;margin-top:6px}
+.card button:focus-visible .face{outline:3px dashed var(--red);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.card .inner{transition:none}}
+
+/* calculators */
+label{font-family:var(--f-hand);font-size:22px;display:block}
+input,select{font-family:var(--f-code);font-size:16px;color:var(--ink);background:var(--paper);border:2px solid var(--line);
+  border-radius:6px;padding:6px 8px;width:100%;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.row>*{flex:1 1 140px;min-width:0}
+.out{font-family:var(--f-code);font-size:15px}
+.big{font-family:var(--f-hand);font-size:34px;color:var(--red)}
+.err{color:var(--red);font-weight:700}
+
+/* symbols */
+.sym{display:grid;grid-template-columns:90px 1fr;gap:6px 12px;align-items:center}
+.sym svg{width:84px;height:48px}
+.sym svg *{fill:none;stroke:var(--ink);stroke-width:2.2}
+
+/* traps */
+.traps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}
+.trap{border:2px solid var(--red);border-radius:8px;padding:8px 12px;min-width:0}
+.trap .x{font-family:var(--f-code);text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px}
+.trap .ok{font-family:var(--f-code);color:var(--ok)}
+
+/* title block */
+.titleblock{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));border:2px solid var(--ink);font-size:15px}
+.titleblock div{border:1px solid var(--ink);padding:4px 8px;min-width:0}
+.titleblock small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--pencil);font-family:var(--f-code)}
+.titleblock b{font-family:var(--f-hand);font-size:22px}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div>
+    <h1>SCS 1101 Field Book</h1>
+    <p class="sub">Hand-drawn revision sheets for the C programming exam: recipes, templates, number bases, tariff ladders, flash cards and the traps that cost marks. <span class="hl">Tap things.</span> Cards flip, blanks reveal, calculators work.</p>
+  </div>
+  <span class="stamp">CHECKED ✓ exam-ready</span>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sheets">
+  <button role="tab" id="t-recipe" aria-controls="recipe" aria-selected="true">1 · Recipe</button>
+  <button role="tab" id="t-code" aria-controls="code" aria-selected="false">2 · Code templates</button>
+  <button role="tab" id="t-bases" aria-controls="bases" aria-selected="false">3 · Number bases</button>
+  <button role="tab" id="t-tariff" aria-controls="tariff" aria-selected="false">4 · Tariff ladders</button>
+  <button role="tab" id="t-cards" aria-controls="cards" aria-selected="false">5 · Flash cards</button>
+  <button role="tab" id="t-traps" aria-controls="traps" aria-selected="false">6 · Red-pen traps</button>
+</nav>
+
+<!-- SHEET 1 -->
+<section class="sheet" id="recipe" role="tabpanel" aria-labelledby="t-recipe">
+  <h2>Every exam program is 6 steps</h2>
+  <p>Mnemonic: <span class="hl"><b>H</b>appy <b>D</b>ucks <b>I</b>n <b>P</b>onds <b>O</b>nly <b>R</b>elax</span>. Examiners give marks for each step, so even half a program scores if the steps are visible.</p>
+  <div class="recipe">
+    <div class="step"><b>H</b><span>Header comment + <code>#include</code></span></div>
+    <div class="step"><b>D</b><span>Declare variables with types and start values</span></div>
+    <div class="step"><b>I</b><span>Input: prompt, then <code>scanf</code> with <code>&amp;</code></span></div>
+    <div class="step"><b>P</b><span>Process: if-ladder, loop or formula</span></div>
+    <div class="step"><b>O</b><span>Output: <code>printf</code> with labels and units</span></div>
+    <div class="step"><b>R</b><span><code>return 0;</code></span></div>
+  </div>
+  <div class="grid2">
+    <div class="box">
+      <h3>The skeleton</h3>
+<pre><span class="cm">/* H: what this program does */</span>
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    double x, result;          <span class="cm">/* D */</span>
+    printf("Enter x: ");       <span class="cm">/* I */</span>
+    scanf("%lf", &amp;x);
+    result = x * x;            <span class="cm">/* P */</span>
+    printf("x^2 = %.2f\n", result); <span class="cm">/* O */</span>
+    return 0;                  <span class="cm">/* R */</span>
+}</pre>
+      <p class="note">Algorithm first: Step 1 Start … Step n Stop</p>
+    </div>
+    <div class="box">
+      <h3>Flowchart symbols (ANSI)</h3>
+      <div class="sym">
+        <svg viewBox="0 0 84 48" aria-hidden="true"><rect x="4" y="10" width="76" height="28" rx="14"/></svg><span><b>Terminator</b>: Start / Stop</span>
+        <svg viewBox="0 0 84 48" aria-hidden="true"><polygon points="16,10 80,10 68,38 4,38"/></svg><span><b>Input/Output</b>: read, display</span>
+        <svg viewBox="0 0 84 48" aria-hidden="true"><rect x="6" y="10" width="72" height="28"/></svg><span><b>Process</b>: calculate, assign</span>
+        <svg viewBox="0 0 84 48" aria-hidden="true"><polygon points="42,4 80,24 42,44 4,24"/></svg><span><b>Decision</b>: two labelled exits, yes / no</span>
+        <svg viewBox="0 0 84 48" aria-hidden="true"><rect x="6" y="10" width="72" height="28"/><line x1="16" y1="10" x2="16" y2="38"/><line x1="68" y1="10" x2="68" y2="38"/></svg><span><b>Predefined process</b>: call a function</span>
+      </div>
+      <p class="note">Label every diamond exit or lose the mark</p>
+    </div>
+  </div>
+  <div class="box" style="margin-top:16px">
+    <h3>Mark split for a 15-mark program (typical)</h3>
+    <div class="tbl"><table>
+      <tr><th>Part</th><th class="num">Marks</th><th>What the marker looks for</th></tr>
+      <tr><td>Header, main, declarations</td><td class="num">3</td><td>Right types, totals start at 0, products at 1</td></tr>
+      <tr><td>Input</td><td class="num">2–3</td><td>Prompt + <code>scanf</code> with <code>&amp;</code>, validation</td></tr>
+      <tr><td>Processing logic</td><td class="num">5–6</td><td>Correct ladder or loop, boundaries tested</td></tr>
+      <tr><td>Output</td><td class="num">2</td><td>Labels, units, <code>%.2f</code></td></tr>
+      <tr><td>Flowchart / comments</td><td class="num">1–3</td><td>ANSI symbols, labelled exits</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<!-- SHEET 2 -->
+<section class="sheet" id="code" role="tabpanel" aria-labelledby="t-code" hidden>
+  <h2>Eight templates to write from memory</h2>
+  <div class="toolbar">
+    <button class="btn" id="testBtn" aria-pressed="false">Test me: hide the key bits</button>
+    <span class="pencil">In test mode, tap a yellow gap to check yourself.</span>
+  </div>
+  <div class="grid2" id="templates">
+    <div class="box"><h3>1 · Array: sum, average, max, min, count</h3>
+<pre>highest = lowest = a[<span class="blank">0</span>];
+for (i = 0; i <span class="blank">&lt;</span> n; i++) {
+    sum += a[i];
+    if (a[i] &gt; highest) highest = a[i];
+    if (a[i] &lt; lowest)  lowest  = a[i];
+    if (a[i] &lt; 50)      failed++;
+}
+average = <span class="blank">(double)</span>sum / n;</pre>
+      <p class="note">ADD of meter readings, cube strengths</p></div>
+
+    <div class="box"><h3>2 · Recursive Fibonacci</h3>
+<pre>int fib(int n)
+{
+    if (n <span class="blank">&lt;= 1</span>) return n;   <span class="cm">/* base case */</span>
+    return fib(<span class="blank">n - 1</span>) + fib(<span class="blank">n - 2</span>);
+}
+<span class="cm">/* main: for (i = 0; i &lt; terms; i++) printf("%d ", fib(i)); */</span></pre>
+      <p class="note">0 1 1 2 3 5 8 13 21 34</p></div>
+
+    <div class="box"><h3>3 · Tiered rate ladder (ZESA, PAYE)</h3>
+<pre>if (u &lt;= 200)      e = u * 0.80;
+else if (u &lt;= 300) e = <span class="blank">160</span> + (u - 200) * 0.90;
+else               e = <span class="blank">250</span> + (u - 300) * 1.00;
+total = e + 10;                   <span class="cm">/* meter charge */</span>
+if (total &gt; 400) total *= <span class="blank">1.15</span>;</pre>
+      <p class="note">lower blocks are always charged in full</p></div>
+
+    <div class="box"><h3>4 · Menu loop (ATM, calculator)</h3>
+<pre><span class="blank">do</span> {
+    printf("1 Deposit 2 Withdraw 3 Balance 4 Exit: ");
+    scanf("%d", &amp;choice);
+    switch (choice) {
+    case 1: ... <span class="blank">break;</span>
+    case 2: if (amt &gt; bal) printf("Insufficient\n");
+            else bal -= amt;  break;
+    default: printf("Invalid\n");
+    }
+} while (choice != <span class="blank">4</span>);</pre>
+      <p class="note">check before you subtract</p></div>
+
+    <div class="box"><h3>5 · Pass by reference (swap)</h3>
+<pre>void swap(int <span class="blank">*</span>a, int <span class="blank">*</span>b)
+{ int t = *a; *a = *b; *b = t; }
+
+swap(<span class="blank">&amp;</span>x, <span class="blank">&amp;</span>y);   <span class="cm">/* send the addresses */</span></pre>
+      <p class="note">value = photocopy, reference = the original</p></div>
+
+    <div class="box"><h3>6 · Factorial (loop)</h3>
+<pre>unsigned long long fact = <span class="blank">1</span>;
+for (i = n; i &gt;= 1; i--)
+    fact = fact * i;
+printf("%d! = %llu\n", n, fact);</pre>
+      <p class="note">products start at 1, sums at 0</p></div>
+
+    <div class="box"><h3>7 · Reverse a string + length</h3>
+<pre>fgets(s, sizeof s, stdin);
+len = <span class="blank">strlen</span>(s);
+if (len &gt; 0 &amp;&amp; s[len-1] == '\n') s[--len] = '\0';
+for (i = len - 1; i &gt;= <span class="blank">0</span>; i--)
+    putchar(s[i]);</pre>
+      <p class="note">a string ends with '\0'</p></div>
+
+    <div class="box"><h3>8 · Copy a file (F-O-R-C)</h3>
+<pre>FILE *src = fopen(a, "rb"), *dst = fopen(b, "wb");
+if (src == <span class="blank">NULL</span> || dst == NULL) return 1;
+<span class="blank">int</span> ch;                 <span class="cm">/* int, so EOF fits */</span>
+while ((ch = fgetc(src)) != <span class="blank">EOF</span>)
+    fputc(ch, dst);
+fclose(src); fclose(dst);</pre>
+      <p class="note">FILE · Open+check · Read loop · Close</p></div>
+  </div>
+</section>
+
+<!-- SHEET 3 -->
+<section class="sheet" id="bases" role="tabpanel" aria-labelledby="t-bases" hidden>
+  <h2>Number bases, by hand and by checker</h2>
+  <p>No calculators in the exam, so learn the method; use this page to check your working. The rule of thumb: <span class="hl">hex digit = 4 bits, octal digit = 3 bits</span>.</p>
+  <div class="grid2">
+    <div class="box">
+      <h3>Converter</h3>
+      <div class="row">
+        <div><label for="numIn">Number</label><input id="numIn" value="13.5625" autocomplete="off"></div>
+        <div><label for="baseIn">It is in base</label>
+          <select id="baseIn"><option value="10" selected>10 decimal</option><option value="2">2 binary</option><option value="8">8 octal</option><option value="16">16 hex</option></select></div>
+      </div>
+      <div class="out" id="convOut" aria-live="polite"></div>
+      <div id="convSteps"></div>
+    </div>
+    <div class="box">
+      <h3>Hex arithmetic checker</h3>
+      <div class="row">
+        <div><label for="hexA">Hex A</label><input id="hexA" value="CAD" autocomplete="off"></div>
+        <div><label for="hexOp">Op</label><select id="hexOp"><option value="+">+</option><option value="*" selected>×</option><option value="-">−</option></select></div>
+        <div><label for="hexB">Hex B</label><input id="hexB" value="B0D" autocomplete="off"></div>
+      </div>
+      <div class="out" id="hexOut" aria-live="polite"></div>
+      <p class="note">Past papers: BAE + DAD in octal; CAD × B0D in hex</p>
+    </div>
+  </div>
+  <div class="grid3" style="margin-top:16px">
+    <div class="box"><h3>Decimal → binary</h3><p>Divide by 2, keep remainders, <b>read upwards</b>. Fractions: multiply by 2, keep the whole part, <b>read downwards</b>.</p></div>
+    <div class="box"><h3>Binary → hex / octal</h3><p>Group from the right in 4s (hex) or 3s (octal). Pad the left with 0s.</p></div>
+    <div class="box"><h3>BCD</h3><p>Each decimal digit on its own in 4 bits. 185 → 0001 1000 0101. Not the same as pure binary 10111001.</p></div>
+  </div>
+</section>
+
+<!-- SHEET 4 -->
+<section class="sheet" id="tariff" role="tabpanel" aria-labelledby="t-tariff" hidden>
+  <h2>Tariff and tax ladders, worked band by band</h2>
+  <p>The same if-ladder solves ZESA bills, PAYE tax and municipal water tariffs. Change the number and watch each block fill.</p>
+  <div class="row" style="max-width:560px">
+    <div><label for="schemeIn">Scheme</label>
+      <select id="schemeIn">
+        <option value="zesa" selected>ZESA (Oct 2024 paper)</option>
+        <option value="paye">PAYE (2025 paper)</option>
+        <option value="water">Water IBT (example rates)</option>
+      </select></div>
+    <div><label for="qtyIn" id="qtyLbl">Units</label><input id="qtyIn" type="number" min="0" step="any" value="600"></div>
+  </div>
+  <div class="tbl" style="margin-top:12px"><table id="bandTbl"></table></div>
+  <p class="big" id="bandTotal" aria-live="polite"></p>
+  <p class="pencil" id="bandNote"></p>
+</section>
+
+<!-- SHEET 5 -->
+<section class="sheet" id="cards" role="tabpanel" aria-labelledby="t-cards" hidden>
+  <h2>Theory flash cards</h2>
+  <div class="toolbar"><button class="btn" id="flipAll">Flip all</button><span class="pencil">Say the answer out loud first, then tap the card.</span></div>
+  <div class="grid3" id="cardGrid"></div>
+</section>
+
+<!-- SHEET 6 -->
+<section class="sheet" id="traps" role="tabpanel" aria-labelledby="t-traps" hidden>
+  <h2>Red-pen traps: where marks disappear</h2>
+  <div class="traps">
+    <div class="trap"><h3>Integer division</h3><p><span class="x">c = 5/9*(f-32);</span> → always 0</p><p class="ok">c = 5.0/9.0*(f-32);</p></div>
+    <div class="trap"><h3>Average loses decimals</h3><p><span class="x">avg = sum / n;</span></p><p class="ok">avg = (double)sum / n;</p></div>
+    <div class="trap"><h3>Missing &amp; in scanf</h3><p><span class="x">scanf("%d", n);</span></p><p class="ok">scanf("%d", &amp;n);</p></div>
+    <div class="trap"><h3>= is not ==</h3><p><span class="x">if (choice = 2)</span> always true</p><p class="ok">if (choice == 2)</p></div>
+    <div class="trap"><h3>Product starts at 1</h3><p><span class="x">fact = 0;</span> every answer 0</p><p class="ok">fact = 1;</p></div>
+    <div class="trap"><h3>Off by one</h3><p><span class="x">for (i = 0; i &lt;= n; i++)</span></p><p class="ok">for (i = 0; i &lt; n; i++)</p></div>
+    <div class="trap"><h3>Lowest starts at 0</h3><p><span class="x">lowest = 0;</span></p><p class="ok">lowest = a[0];</p></div>
+    <div class="trap"><h3>Stray semicolon</h3><p><span class="x">for (i=1; i&lt;=n; i++);</span> empty loop</p><p class="ok">for (i=1; i&lt;=n; i++)</p></div>
+    <div class="trap"><h3>Wrong format code</h3><p><span class="x">printf("%d", 2.5);</span></p><p class="ok">%d int · %f print double · %lf scan double</p></div>
+    <div class="trap"><h3>char for EOF</h3><p><span class="x">char ch = fgetc(fp);</span></p><p class="ok">int ch = fgetc(fp);</p></div>
+    <div class="trap"><h3>switch without break</h3><p><span class="x">case 1: ... case 2: ...</span> falls through</p><p class="ok">case 1: ...; break;</p></div>
+    <div class="trap"><h3>Never-ending while</h3><p><span class="x">while (n &lt;= 100) sum += n*n;</span></p><p class="ok">{ sum += n*n; n++; }</p></div>
+  </div>
+  <p class="note" style="margin-top:14px">"Compare and contrast" needs similarities AND differences</p>
+</section>
+
+<div class="titleblock" aria-label="Title block">
+  <div><small>Project</small><b>SCS 1101 revision</b></div>
+  <div><small>Drawing</small><b id="tbSheet">Sheet 1 of 6</b></div>
+  <div><small>Scale</small><b>NTS</b></div>
+  <div><small>Ref.</small><b>Solution Library, 8 papers</b></div>
+  <div><small>Rev.</small><b>A · Oct 2026</b></div>
+</div>
+</div>
+
+<script>
+(function(){
+  /* ---------- tabs ---------- */
+  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+  var names={recipe:1,code:2,bases:3,tariff:4,cards:5,traps:6};
+  function show(id,focus){
+    tabs.forEach(function(t){
+      var on=t.getAttribute('aria-controls')===id;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+      if(on&&focus)t.focus();
+    });
+    document.getElementById('tbSheet').textContent='Sheet '+names[id]+' of 6';
+    try{localStorage.setItem('fb-tab',id)}catch(e){}
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.getAttribute('aria-controls'))});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+      if(d){var n=tabs[(i+d+tabs.length)%tabs.length];show(n.getAttribute('aria-controls'),true);e.preventDefault()}
+    });
+  });
+  var start='recipe', h=(location.hash||'').slice(1);
+  if(names[h])start=h; else {try{var s=localStorage.getItem('fb-tab');if(names[s])start=s}catch(e){}}
+  show(start);
+
+  /* ---------- test mode ---------- */
+  var tb=document.getElementById('testBtn'), tpl=document.getElementById('templates');
+  tb.addEventListener('click',function(){
+    var on=tb.getAttribute('aria-pressed')!=='true';
+    tb.setAttribute('aria-pressed',on);
+    tpl.classList.toggle('testing',on);
+    [].forEach.call(tpl.querySelectorAll('.blank'),function(b){b.classList.remove('shown')});
+    tb.textContent=on?'Show all answers':'Test me: hide the key bits';
+  });
+  tpl.addEventListener('click',function(e){
+    var b=e.target.closest('.blank'); if(b&&tpl.classList.contains('testing'))b.classList.toggle('shown');
+  });
+
+  /* ---------- converter ---------- */
+  var digits='0123456789ABCDEF';
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+  function parseIn(str,base){
+    str=str.trim().toUpperCase(); if(!str)return null;
+    var neg=false; if(str[0]==='-'){neg=true;str=str.slice(1)}
+    var parts=str.split('.'); if(parts.length>2)return null;
+    var ip=parts[0]||'0', fp=parts[1]||'';
+    var okSet=digits.slice(0,base);
+    if(!(ip+fp).split('').every(function(c){return okSet.indexOf(c)>=0}))return null;
+    if(ip.length>15)return null;
+    var iv=0; ip.split('').forEach(function(c){iv=iv*base+digits.indexOf(c)});
+    var fv=0, w=1/base; fp.split('').forEach(function(c){fv+=digits.indexOf(c)*w; w/=base});
+    return {i:iv,f:fv,neg:neg};
+  }
+  function toBase(v,base,maxFrac){
+    var s=v.i.toString(base).toUpperCase(), f=v.f, out='';
+    for(var k=0;k<maxFrac&&f>0;k++){f*=base;var d=Math.floor(f+1e-12);out+=digits[d];f-=d}
+    return (v.neg?'-':'')+s+(out?'.'+out:'');
+  }
+  function bcd(v){return String(v.i).split('').map(function(d){return ('000'+(+d).toString(2)).slice(-4)}).join(' ')}
+  function convert(){
+    var v=parseIn(document.getElementById('numIn').value,+document.getElementById('baseIn').value);
+    var o=document.getElementById('convOut'), st=document.getElementById('convSteps');
+    if(!v){o.innerHTML='<p class="err">Use only digits valid in that base (hex: 0–9, A–F), at most one point.</p>';st.innerHTML='';return}
+    o.innerHTML='<div class="tbl"><table>'+
+      '<tr><th>Base</th><th>Value</th></tr>'+
+      '<tr><td>Decimal</td><td class="num">'+esc((v.neg?'-':'')+(v.i+v.f))+'</td></tr>'+
+      '<tr><td>Binary</td><td class="num">'+esc(toBase(v,2,12))+'</td></tr>'+
+      '<tr><td>Octal</td><td class="num">'+esc(toBase(v,8,8))+'</td></tr>'+
+      '<tr><td>Hex</td><td class="num">'+esc(toBase(v,16,6))+'</td></tr>'+
+      '<tr><td>BCD (whole part)</td><td class="num">'+esc(bcd(v))+'</td></tr></table></div>';
+    var n=v.i, rows='';
+    if(n>0&&n<1e7){
+      var guard=0; while(n>0&&guard++<40){rows+='<tr><td class="num">'+n+' ÷ 2</td><td class="num">'+Math.floor(n/2)+'</td><td class="num">'+(n%2)+'</td></tr>';n=Math.floor(n/2)}
+      var fr='', f=v.f, frRows=''; for(var k=0;k<8&&f>0;k++){var p=f*2,b=Math.floor(p+1e-12);frRows+='<tr><td class="num">'+(+f.toFixed(8))+' × 2</td><td class="num">'+(+p.toFixed(8))+'</td><td class="num">'+b+'</td></tr>';f=p-b}
+      st.innerHTML='<p class="note">Working for decimal → binary</p><div class="tbl"><table><tr><th>Step</th><th>Quotient</th><th>Remainder ↑</th></tr>'+rows+'</table></div>'+
+        (frRows?'<div class="tbl" style="margin-top:6px"><table><tr><th>Fraction</th><th>Result</th><th>Bit ↓</th></tr>'+frRows+'</table></div>':'');
+    } else st.innerHTML='';
+  }
+  ['numIn','baseIn'].forEach(function(id){document.getElementById(id).addEventListener('input',convert)});
+  convert();
+
+  function hexCalc(){
+    var a=document.getElementById('hexA').value.trim().toUpperCase(), b=document.getElementById('hexB').value.trim().toUpperCase(), op=document.getElementById('hexOp').value;
+    var o=document.getElementById('hexOut');
+    if(!/^[0-9A-F]{1,12}$/.test(a)||!/^[0-9A-F]{1,12}$/.test(b)){o.innerHTML='<p class="err">Enter hex digits only (0–9, A–F), up to 12 each.</p>';return}
+    var A=BigInt('0x'+a), B=BigInt('0x'+b), R=op==='+'?A+B:op==='*'?A*B:A-B;
+    var neg=R<0n, M=neg?-R:R, sg=neg?'-':'';
+    o.innerHTML='<p class="big">'+sg+M.toString(16).toUpperCase()+'<sub>16</sub></p><div class="tbl"><table>'+
+      '<tr><td>Decimal check</td><td class="num">'+A+' '+(op==='*'?'×':op)+' '+B+' = '+R+'</td></tr>'+
+      '<tr><td>Octal</td><td class="num">'+sg+M.toString(8)+'</td></tr>'+
+      '<tr><td>Binary</td><td class="num">'+sg+M.toString(2)+'</td></tr></table></div>';
+  }
+  ['hexA','hexB','hexOp'].forEach(function(id){document.getElementById(id).addEventListener('input',hexCalc)});
+  hexCalc();
+
+  /* ---------- tariff ladders ---------- */
+  var schemes={
+    zesa:{label:'Units (kWh)',unit:'kWh',bands:[[200,0.80],[100,0.90],[Infinity,1.00]],fixed:10,
+      sur:function(t){return t>400?t*0.15:0},note:'Reading used: $10 meter charge added to every bill; 15% surcharge when the total exceeds $400.',rate:function(r){return '$'+r.toFixed(2)+'/unit'}},
+    paye:{label:'Salary ($)',unit:'$',bands:[[100,0],[200,0.20],[700,0.25],[1000,0.30],[Infinity,0.35]],fixed:0,
+      sur:function(){return 0},note:'Progressive (marginal) bands: each rate applies only to the slice of salary inside its band.',rate:function(r){return Math.round(r*100)+'%'}},
+    water:{label:'Water used (m³)',unit:'m³',bands:[[6,0.50],[14,1.20],[Infinity,2.00]],fixed:5,
+      sur:function(){return 0},note:'Example rates for practice only, not a real council tariff. First block = lifeline block; $5 = fixed (standing) charge.',rate:function(r){return '$'+r.toFixed(2)+'/m³'}}
+  };
+  function ladder(){
+    var sc=schemes[document.getElementById('schemeIn').value];
+    document.getElementById('qtyLbl').textContent=sc.label;
+    var q=parseFloat(document.getElementById('qtyIn').value), tbl=document.getElementById('bandTbl');
+    if(!(q>=0)){tbl.innerHTML='';document.getElementById('bandTotal').innerHTML='<span class="err">Enter a number of 0 or more.</span>';return}
+    var left=q, lo=0, sum=0, rows='<tr><th>Band</th><th>Rate</th><th class="num">Amount in band</th><th class="num">Charge ($)</th></tr>';
+    sc.bands.forEach(function(b){
+      var hi=lo+b[0], take=Math.max(0,Math.min(left,b[0])), c=take*b[1];
+      rows+='<tr'+(take>0?'':' class="pencil"')+'><td>'+lo+' – '+(hi===Infinity?'above':hi)+'</td><td>'+sc.rate(b[1])+'</td><td class="num">'+(+take.toFixed(2))+'</td><td class="num">'+c.toFixed(2)+'</td></tr>';
+      sum+=c; left-=take; lo=hi;
+    });
+    var tot=sum+sc.fixed, s=sc.sur(tot);
+    if(sc.fixed)rows+='<tr><td colspan="3">Fixed / meter charge</td><td class="num">'+sc.fixed.toFixed(2)+'</td></tr>';
+    if(s)rows+='<tr><td colspan="3" class="red">Surcharge 15%</td><td class="num">'+s.toFixed(2)+'</td></tr>';
+    tbl.innerHTML=rows;
+    var label=document.getElementById('schemeIn').value==='paye'?'PAYE = $':'Amount due = $';
+    document.getElementById('bandTotal').textContent=label+(tot+s).toFixed(2);
+    document.getElementById('bandNote').textContent=sc.note;
+  }
+  ['schemeIn','qtyIn'].forEach(function(id){document.getElementById(id).addEventListener('input',ladder)});
+  document.getElementById('schemeIn').addEventListener('change',function(){
+    document.getElementById('qtyIn').value={zesa:600,paye:1500,water:25}[this.value]; ladder();
+  });
+  ladder();
+
+  /* ---------- flash cards ---------- */
+  var cards=[
+    ['OS functions (name 5)','Process mgmt · Memory mgmt · File mgmt · Device/I-O mgmt · Security (+ user interface, error logging)','The head teacher: gives every program a turn, a desk and a locker.','Asked in 4 papers'],
+    ['SaaS, PaaS, IaaS','SaaS: use the provider\'s app (Gmail). PaaS: build your app on their platform (App Engine). IaaS: rent virtual machines, you run the OS (Amazon EC2). Source: NIST SP 800-145.','Pizza: ordered (SaaS), take-and-bake (PaaS), rented kitchen (IaaS).','2024, 2025'],
+    ['Star vs bus vs ring','Star: own cable to a central switch; one cable fault hits one PC, switch is a single point of failure. Bus: one backbone + terminators; cheap, one break stops all. Ring: closed loop, data passed round; one break stops the ring.','Teacher in the middle / one long rope / holding hands in a circle.','2024, 2025, 2009'],
+    ['RAM vs ROM','RAM: read/write, volatile, holds programs in use (SRAM cache, DRAM main). ROM: read-only, non-volatile, holds BIOS/firmware (Mask ROM, PROM, EPROM-UV, EEPROM/flash).','RAM = whiteboard wiped at night; ROM = printed book.','2005, 2004'],
+    ['4 error types','Syntax: breaks grammar, won\'t compile. Run-time: crashes while running (÷0). Logic: runs, wrong answer. Semantic: valid grammar, meaningless (int x = "ten").','Spelling mistake / tripping while running / running to the wrong house / "the cup drank the milk".','2024, 2025, 2004'],
+    ['Compiler vs interpreter','Compiler: whole program translated before running, separate executable, fast. Interpreter: line by line while running, stops at first error, slower.','Translate the whole book first, or read it aloud line by line.','2005'],
+    ['Pass by value vs reference','Value: function gets a copy; caller unchanged. Reference: function gets the address (pointer); changes stick. swap(&x, &y).','Photocopy vs the original drawing.','2024'],
+    ['Stack vs queue','Stack: LIFO, push/pop at the top (call stack, undo). Queue: FIFO, join at rear, leave at front (print spool, FCFS).','Pile of plates / tuck-shop line.','Data structures'],
+    ['Computer generations','1 vacuum tubes · 2 transistors · 3 integrated circuits · 4 microprocessors (VLSI) · 5 AI, parallel processing.','Glass tubes → tiny switches → chips → one chip brain → thinking machines.','4 papers'],
+    ['Impact vs non-impact printers','Impact strikes a ribbon: dot matrix, daisy wheel (noisy, carbon copies). Non-impact: inkjet sprays, laser fuses toner, plotter draws lines (quiet, high quality).','Rubber stamp vs paint spray.','4 papers'],
+    ['High-level language advantages','Easy to read/write · faster development · portable · easier debugging · problem-oriented · libraries.','Talk to the computer in near-English.','3 papers'],
+    ['Structured constructs','Sequence (in order) · Selection (if/switch) · Iteration (for/while) · Modularity (functions). One entry, one exit, no goto.','Straight road, fork, roundabout.','2005, 2013']
+  ];
+  var grid=document.getElementById('cardGrid');
+  cards.forEach(function(c,i){
+    var d=document.createElement('div'); d.className='card';
+    d.innerHTML='<button aria-pressed="false" aria-label="Card: '+esc(c[0])+'. Tap to flip."><div class="inner">'+
+      '<div class="face front"><span class="q">'+esc(c[0])+'</span><span class="tag">'+esc(c[3])+' · tap to flip</span></div>'+
+      '<div class="face back">'+esc(c[1])+'<span class="eli">Like you\'re 3: '+esc(c[2])+'</span></div></div></button>';
+    var b=d.querySelector('button');
+    b.addEventListener('click',function(){var on=!d.classList.contains('flip');d.classList.toggle('flip',on);b.setAttribute('aria-pressed',on)});
+    grid.appendChild(d);
+  });
+  document.getElementById('flipAll').addEventListener('click',function(){
+    var all=[].slice.call(grid.children), anyFront=all.some(function(c){return !c.classList.contains('flip')});
+    all.forEach(function(c){c.classList.toggle('flip',anyFront);c.querySelector('button').setAttribute('aria-pressed',anyFront)});
+    this.textContent=anyFront?'Flip all back':'Flip all';
+  });
+})();
+</script>
+
+</body>
+</html>
