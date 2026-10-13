@@ -325,14 +325,15 @@ const COURSES = [
   { id: 'scs1101', code: 'SCS 1101', name: 'Introduction to Computer Science and Programming', c: 'var(--nust)',
     blurb: 'Five-week intensive in C for Civil & Water, Chemical and Industrial Engineering. Eleven topics, eight solved past papers, full notes.',
     meta: [['Lecturer', 'Mr B. Guvava'], ['Credits', '10'], ['Format', '5-week intensive, 48 contact hours'], ['Language', 'C (Book 8 in C++)']], full: true },
-  { id: 'scs1100', code: 'SCS 1100', name: 'Information Technology and Computer Applications', c: 'var(--green)',
-    blurb: 'December 2024 main examination paper. Answer any four questions, 25 marks each, 3 hours.',
-    meta: [['Paper', 'December 2024 main'], ['Examiner', 'T. Zengeya'], ['Format', 'Any 4 · 25 marks each'], ['Time', '3 hours']], paper: 'papers/SCS1100_Dec2024.pdf' },
-  { id: 'scs1103', code: 'SCS 1103', name: 'Operating Systems', c: 'var(--gold)',
-    blurb: 'November 2024 final examination paper. Answer any four questions, 25 marks each, 3 hours.',
-    meta: [['Paper', 'November 2024 final'], ['Format', 'Any 4 · 25 marks each'], ['Time', '3 hours'], ['Total', '100 marks']], paper: 'papers/SCS1103_Nov2024.pdf' },
+  { id: 'ecw1102', code: 'ECW 1102', name: 'Civil Engineering Drawing', c: 'var(--green)',
+    blurb: 'Drawing for civil and water engineering. Notes, drawing exercises and past papers appear here once the group uploads them. Use the thread below to post questions and share your drawings.',
+    meta: [['Department', 'Civil & Water Engineering'], ['Course code', 'ECW 1102'], ['Materials', 'None uploaded yet'], ['Discussion', 'Open to Group 13']] },
+  { id: 'comm', code: '', name: 'Communication Skills', c: 'var(--gold)',
+    blurb: 'Communication Skills for first-year engineering students. Notes and past papers appear here once the group uploads them. Use the thread below for assignments, presentations and exam preparation.',
+    meta: [['Course code', 'To be confirmed'], ['Phase', 'Year I · Semester I'], ['Materials', 'None uploaded yet'], ['Discussion', 'Open to Group 13']] },
 ];
 const courseById = id => COURSES.find(c => c.id === id);
+const codeOf = c => c.code || c.name;
 
 /* ---------------- capabilities ---------------- */
 const cap = { db: null, user: null, dl: null, me: null, canWrite: null };
@@ -341,8 +342,8 @@ const REPO = 'https://github.com/karlo990/Group_13_Discussions';
 const BOARD = 'https://claude.ai/artifact/Jh8SV3p4yi23XvUhJGaYU4';
 const canSave = () => !!cap.dl || STANDALONE;
 const issueUrl = (title) => REPO + '/issues/new?title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent('Asked from the Group 13 Study Board.\n\n');
-const posts = { scs1101: [], scs1100: [], scs1103: [] };
-const postsReady = { scs1101: false, scs1100: false, scs1103: false };
+const posts = Object.fromEntries(COURSES.map(c => [c.id, []]));
+const postsReady = Object.fromEntries(COURSES.map(c => [c.id, false]));
 let profiles = {};
 
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(() => { t.hidden = true; }, 3200); }
@@ -378,7 +379,7 @@ const avatarOf = id => (profiles[id] && profiles[id].avatarUrl) || '';
 /* ---------------- routing ---------------- */
 function route() {
   const h = (location.hash || '#home').slice(1);
-  const m = h.match(/^(scs\d{4})(?:-m(\d+))?$/);
+  const m = h.match(/^([a-z]+\d*)(?:-m(\d+))?$/);
   if (m && courseById(m[1])) return { view: m[2] ? 'module' : 'course', course: m[1], mod: m[2] ? +m[2] : null };
   return { view: 'home' };
 }
@@ -388,7 +389,7 @@ function crumbs(r) {
   const c = $('#crumbs'); c.replaceChildren();
   const add = (label, href, here) => { if (c.childNodes.length) c.append(el('span', { class: 'sep', 'aria-hidden': 'true' }, '›')); c.append(here ? el('span', { class: 'here' }, label) : el('a', { href }, label)); };
   add('Phase I · Year I Semester I', '#home', r.view === 'home');
-  if (r.course) { const co = courseById(r.course); add(co.code, '#' + co.id, r.view === 'course'); }
+  if (r.course) { const co = courseById(r.course); add(codeOf(co), '#' + co.id, r.view === 'course'); }
   if (r.view === 'module') add('Module ' + r.mod, '', true);
 }
 
@@ -422,10 +423,10 @@ function renderHome(app) {
   for (const c of COURSES) {
     const n = posts[c.id].length;
     cs.append(el('a', { class: 'course', href: '#' + c.id, style: '--c:' + c.c },
-      el('div', { class: 'top' }, el('span', { class: 'code' }, c.code), el('span', { class: 'label' }, c.full ? '11 modules' : 'Past paper')),
+      el('div', { class: 'top' }, el('span', { class: 'code' }, c.code || 'Code TBC'), el('span', { class: 'label' }, c.full ? '11 modules' : 'Course')),
       el('h3', {}, c.name),
       el('div', { class: 'foot' },
-        c.full ? el('span', { class: 'chip ok' }, el('span', { class: 'dot' }), 'Notes + 8 solution books') : el('span', { class: 'chip warn' }, 'Question paper on file'),
+        c.full ? el('span', { class: 'chip ok' }, el('span', { class: 'dot' }), 'Notes + 8 solution books') : el('span', { class: 'chip warn' }, 'Materials coming'),
         STANDALONE ? null : el('span', { class: 'chip' }, n + (n === 1 ? ' post' : ' posts')))));
   }
   app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Courses in this phase'), el('p', {}, 'Tap a course to see its modules')), cs));
@@ -445,13 +446,13 @@ function renderHome(app) {
 }
 function treeNode() {
   const f = document.createDocumentFragment();
-  const lines = [['Group13_SCS1101_Study_Pack/', ''], ['├─ 01_Solution_Books_PDF/', '  8 books'], ['├─ 02_Solution_Books_Word/', '  8 books'], ['├─ 03_Notes/', '  C notes, Field Book'], ['├─ 04_Past_Papers/', '  11 papers + outline'], ['└─ README.txt', '']];
+  const lines = [['Group13_SCS1101_Study_Pack/', ''], ['├─ 01_Solution_Books_PDF/', '  8 books'], ['├─ 02_Solution_Books_Word/', '  8 books'], ['├─ 03_Notes/', '  C notes, Field Book'], ['├─ 04_Past_Papers/', '  8 papers + outline'], ['└─ README.txt', '']];
   lines.forEach(([a, b], i) => { f.append(a); if (b) f.append(el('i', {}, b)); if (i < lines.length - 1) f.append('\n'); });
   return f;
 }
 function githubDiscuss(course, tag) {
   const co = courseById(course) || COURSES[0];
-  const term = course === 'home' ? 'Group 13 · General' : co.code + ' · ' + (tag && tag !== 'all' && tag !== 'general' ? tagLabel(tag) : 'General');
+  const term = course === 'home' ? 'Group 13 · General' : codeOf(co) + ' · ' + (tag && tag !== 'all' && tag !== 'general' ? tagLabel(tag) : 'General');
   const wrap = el('div', { class: 'composer' },
     el('div', { class: 'row' },
       el('p', { style: 'margin:0;font-size:13.5px;color:var(--muted);flex:1 1 260px' }, 'Thread: ' + term + '. Sign in with GitHub to comment; every thread is saved as an issue in the Group 13 repo.'),
@@ -481,7 +482,7 @@ function fillLatest(box) {
 /* ---------------- course ---------------- */
 function renderCourse(app, c) {
   const head = el('section', { class: 'chead' },
-    el('div', { class: 'chead-top' }, el('span', { class: 'code' }, c.code), el('h1', {}, c.name), el('p', {}, c.blurb)),
+    el('div', { class: 'chead-top' }, el('span', { class: 'code' }, c.code || 'Course code to be confirmed'), el('h1', {}, c.name), el('p', {}, c.blurb)),
     el('div', { class: 'meta' }, ...c.meta.map(([k, v]) => el('div', {}, el('div', { class: 'label' }, k), el('div', { class: 'v' }, v)))));
   if (c.full) head.append(el('div', { class: 'assess' }, el('div', { class: 'label' }, 'Assessment · from the course outline'),
     el('div', { class: 'abar', role: 'img', 'aria-label': 'Final exam 60 percent; test 10; assignment 1 10; assignment 2 10; group research 10' },
@@ -505,11 +506,9 @@ function renderCourse(app, c) {
     app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Modules'), el('p', {}, 'Numbered as in the course outline · gold bars show which of the 8 papers test it')), mods));
     app.append(librarySection());
   } else {
-    const lib = el('div', { class: 'panel lib' },
-      el('div', { class: 'lrow' }, el('span', { class: 'n doc' }, 'PDF'), el('div', {}, el('h3', {}, c.meta[0][1] + ' question paper'), el('p', {}, c.blurb)),
-        el('div', { class: 'acts' }, btn('Read', () => openReader({ file: c.paper, title: c.code + ' · ' + c.meta[0][1], sub: c.name, course: c.id, tag: 'general' }), 'primary', 'read'),
-          canSave() ? btn('Save PDF', () => saveFile(c.paper, c.code.replace(' ', '') + '_' + c.meta[0][1].replace(/\s+/g, '_') + '.pdf'), '', 'save') : null)));
-    app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Paper'), el('p', {}, 'No solution book yet: work it through together below')), lib));
+    const lib = el('div', { class: 'panel' }, el('div', { class: 'empty' },
+      'No notes or past papers for this course yet. Post them in the thread below, or send them to Karl to add to the board and the study pack.'));
+    app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Library'), el('p', {}, 'Notes and papers will appear here')), lib));
   }
   app.append(discussionSection(c.id, 'all', c.full ? 'Course discussion' : 'Discussion'));
 }
@@ -661,7 +660,7 @@ function when(ms) {
 function postEl(p, course, replies, compact) {
   const av = avatarOf(p.by);
   const tagBtn = p.tag && p.tag !== 'general' && course === 'scs1101' ? el('button', { class: 'tagref', type: 'button', onclick: () => { if (p.tag.startsWith('m')) location.hash = '#scs1101-' + p.tag; else openBook(BOOKS[+p.tag.slice(1) - 1], 1); } }, tagLabel(p.tag)) : null;
-  const courseRef = compact ? el('a', { class: 'tagref', href: '#' + course, style: 'text-decoration:none' }, courseById(course).code) : null;
+  const courseRef = compact ? el('a', { class: 'tagref', href: '#' + course, style: 'text-decoration:none' }, codeOf(courseById(course))) : null;
   const ops = el('div', { class: 'ops' });
   if (!compact && !p.re && cap.canWrite !== false) ops.append(btn('Reply', () => { replyTo = p; drawDiscussion(true); const t = $('#post-text'); if (t) t.focus(); }, 'ghost'));
   if (p.by && p.by === cap.me) {
@@ -734,7 +733,6 @@ async function saveZip(button) {
     BOOKS.forEach(b => { jobs.push(['01_Solution_Books_PDF/' + b.file.split('/').pop(), b.file]); jobs.push(['02_Solution_Books_Word/' + b.docx.split('/').pop(), b.docx]); });
     jobs.push(['03_Notes/C_Programming_Notes_SCS1101.pdf', NOTES.file], ['03_Notes/C_Programming_Notes_SCS1101.docx', NOTES.docx], ['03_Notes/SCS1101_Field_Book_Cheat_Sheets.html', 'notes/fieldbook.html'], ['README.txt', 'notes/README.txt']);
     PAPERS.forEach(p => jobs.push(['04_Past_Papers/' + p.file.split('/').pop(), p.file]));
-    jobs.push(['04_Past_Papers/SCS1100_Dec2024.pdf', 'papers/SCS1100_Dec2024.pdf'], ['04_Past_Papers/SCS1103_Nov2024.pdf', 'papers/SCS1103_Nov2024.pdf']);
     let done = 0;
     await Promise.all(jobs.map(async ([name, url]) => { root.file(name, await getBytes(url)); done++; }));
     const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });

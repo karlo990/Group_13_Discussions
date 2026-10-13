@@ -5,8 +5,7 @@ NUST Faculty of Engineering - Civil & Water Engineering - Year I, Semester I
 02_Solution_Books_Word  the same 8 books as editable Word files
 03_Notes                C programming notes (Word + PDF) and the Field Book cheat sheets
                         (open the .html file in any browser)
-04_Past_Papers          the original question papers, the SCS 1101 course outline,
-                        and the SCS 1100 and SCS 1103 papers
+04_Past_Papers          the original question papers and the SCS 1101 course outline
 
 Book  Paper
 1     SCS 1101 October 2024

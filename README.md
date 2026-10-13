@@ -2,7 +2,7 @@
 
 **Civil & Water Engineering · NUST Faculty of Engineering · Year I, Semester I**
 
-This is Group 13's study board for SCS 1101 *Introduction to Computer Science and Programming*, plus the SCS 1100 and SCS 1103 papers on file. Let's discuss engineering.
+This is Group 13's study board for Year I Semester I: SCS 1101 *Introduction to Computer Science and Programming* (notes and 8 solved past papers), ECW 1102 *Civil Engineering Drawing* and *Communication Skills*. Let's discuss engineering.
 
 ## Open the board
 
