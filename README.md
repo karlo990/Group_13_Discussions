@@ -7,7 +7,6 @@ This is Group 13's study board for Year I Semester I: SCS 1101 *Introduction to 
 ## Open the board
 
 - **Website:** https://group13-discussions-page.vercel.app (or open `index.html`)
-- **Live board on Claude** (discussion saved inside the page): https://claude.ai/artifact/Jh8SV3p4yi23XvUhJGaYU4
 
 How to move around the board:
 
