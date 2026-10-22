@@ -26,6 +26,7 @@ Every course and module page has its own comment thread, powered by [Utterances]
 | `books/` | 8 solution books (PDF) with tappable tabs and an index |
 | `word/` | The same 8 books, plus the C notes, as editable Word files |
 | `notes/` | C Programming Notes (PDF) and the Field Book cheat sheets (`fieldbook.html`) |
+| `notes/comm/` | TCW 1103 Communication Skills: three exam whitepapers (theory and people skills; writing, meetings and referencing; workplace, oral skills and exam spotter) |
 | `papers/` | The original question papers and the SCS 1101 course outline |
 | `Group13_SCS1101_Study_Pack.zip` | Everything above in one download |
 
