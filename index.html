@@ -420,12 +420,13 @@ const COURSES = [
     meta: [['Department', 'Civil & Water Engineering'], ['Course code', 'ECW 1102'], ['Materials', 'None uploaded yet'], ['Discussion', 'Open to Group 13']] },
   { id: 'comm', code: '', shown: 'TCW 1103', name: 'Communication Skills', c: 'var(--gold)',
     blurb: 'Engineering Communication Skills (Part 1) with Mr T. L. Luzane. Three exam whitepapers cover the whole course, with summaries, an exam spotter, a past-paper style question bank and model answers. Exam: Monday 26 October 2026.',
-    meta: [['Course code', 'TCW 1103'], ['Lecturer', 'Mr T. L. Luzane'], ['Materials', '3 whitepapers · 33 pages'], ['Discussion', 'Open to Group 13']] },
+    meta: [['Course code', 'TCW 1103'], ['Lecturer', 'Mr T. L. Luzane'], ['Materials', '4 whitepapers · 51 pages'], ['Discussion', 'Open to Group 13']] },
 ];
 const COMM_DOCS = [
   { n: 1, file: 'notes/comm/TCW1103_Whitepaper_1_Communication_Theory_and_Interpersonal_Skills.pdf', title: 'Whitepaper 1 · Communication theory and interpersonal skills', sub: 'Process diagram, models, non-verbal, channels, barriers, 7 C\'s, listening, assertiveness, EI, conflict and Lewin, leadership', pages: 11 },
   { n: 2, file: 'notes/comm/TCW1103_Whitepaper_2_Written_Communication_Meetings_and_Referencing.pdf', title: 'Whitepaper 2 · Written communication, meetings and referencing', sub: 'Memo, complaint and motivation letters, CV, reports, abstracts, notice vs agenda, minutes, chair vs secretary, Harvard and APA', pages: 11 },
   { n: 3, file: 'notes/comm/TCW1103_Whitepaper_3_Workplace_Oral_Skills_and_Exam_Spotter.pdf', title: 'Whitepaper 3 · Workplace, oral skills and exam spotter', sub: 'Presentations, interviews, networking, promotion, exam vocabularies, ranked spotter, 30-question bank, model answers, Monday plan', pages: 11 },
+  { n: 4, file: 'notes/comm/TCW1103_Whitepaper_4_Letters_and_Workplace_Documents_with_Examples.pdf', title: 'Whitepaper 4 · Letters and workplace documents: notes and examples', sub: '22 model documents: enquiry, quotation, order, complaint, adjustment, refusal, application, motivation, attachment, CV, offer, acceptance, resignation, apology, thanks, invitation, editor, circular, informal, memo, email, notice, agenda, press release', pages: 18 },
 ];
 const courseById = id => COURSES.find(c => c.id === id);
 const codeOf = c => c.code || c.name;
@@ -536,7 +537,7 @@ function renderHome(app) {
       el('h3', {}, c.name),
       el('div', { class: 'foot' },
         el('span', { style: 'display:flex;gap:6px;flex-wrap:wrap' },
-          c.full ? el('span', { class: 'chip ok' }, el('span', { class: 'dot' }), '11 modules · 8 solved papers') : (c.id === 'comm' ? el('span', { class: 'chip ok' }, el('span', { class: 'dot' }), '3 exam whitepapers') : el('span', { class: 'chip warn' }, 'Materials coming')),
+          c.full ? el('span', { class: 'chip ok' }, el('span', { class: 'dot' }), '11 modules · 8 solved papers') : (c.id === 'comm' ? el('span', { class: 'chip ok' }, el('span', { class: 'dot' }), '4 exam whitepapers') : el('span', { class: 'chip warn' }, 'Materials coming')),
           STANDALONE || !cap.db ? null : el('span', { class: 'chip' }, n + (n === 1 ? ' post' : ' posts'))),
         el('span', { class: 'go' }, 'Open →'))));
   }
@@ -625,7 +626,7 @@ function renderCourse(app, c) {
       el('div', { class: 'acts' },
         btn('Read', () => openReader({ file: d.file, title: d.title, sub: d.sub, course: 'comm', tag: 'general' }), 'primary', 'read'),
         canSave() ? btn('PDF', () => saveFile(d.file, d.file.split('/').pop()), 'ghost', 'save') : null)));
-    app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Library'), el('p', {}, 'Three whitepapers for the exam · start with 3 if short of time')), lib));
+    app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Library'), el('p', {}, 'Four whitepapers for the exam · start with 3 if short of time')), lib));
   } else {
     const lib = el('div', { class: 'panel' }, el('div', { class: 'empty' },
       'No notes or past papers for this course yet. Post them in the thread below, or send them to Karl to add to the board and the study pack.'));
