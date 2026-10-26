@@ -199,6 +199,15 @@ main > *, .sec > *, .two > * { min-width: 0; }
 .lib { display: grid; }
 .lrow { display: grid; grid-template-columns: 50px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); }
 .lrow:last-child { border-bottom: 0; }
+.lrow.hot { background: color-mix(in srgb, var(--gold) 12%, var(--surface, #fff)); box-shadow: inset 4px 0 0 var(--gold); }
+.lrow.hot .n { font-size: 13px; letter-spacing: .06em; background: var(--gold); color: #fff; }
+.chip.new { background: var(--gold); color: #fff; border-color: transparent; font-weight: 800; letter-spacing: .04em; }
+.spot-new { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 18px; border-radius: 16px; border: 2px solid var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface, #fff)); }
+.spot-new .ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--gold); color: #fff; font-family: var(--f-mono); font-weight: 800; font-size: 18px; }
+.spot-new h3 { font-size: 17px; font-weight: 800; margin: 4px 0 2px; }
+.spot-new p { margin: 0; color: var(--muted); font-size: 13.5px; }
+.spot-new .acts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+@media (max-width: 640px) { .spot-new { grid-template-columns: 1fr; } .spot-new .ic { display: none; } .spot-new .acts { justify-content: flex-start; } }
 .lrow:hover { background: var(--surface-2); }
 .lrow .n { width: 50px; height: 50px; border-radius: 14px; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 22px; color: var(--gold-ink); background: var(--gold-soft); }
 .lrow .n.doc { color: var(--brand); background: var(--tint); font-size: 12px; font-family: var(--f-mono); font-weight: 600; }
@@ -392,6 +401,17 @@ const btn = (label, onclick, cls = '', icon) => el('button', { class: 'btn ' + c
 /* ---------------- static course model ---------------- */
 const BOOKS = DATA.books;
 const NOTES = { file: 'notes/C_Programming_Notes_SCS1101.pdf', docx: 'word/C_Programming_Notes_SCS1101.docx', title: 'C Programming Notes for SCS 1101', pages: 45 };
+const CALC = { file: 'notes/SCS1101_Calculator_Switch_Case_in_C.pdf', code1: 'notes/code/calc1.c', code2: 'notes/code/calc2.c', title: 'Calculator in C using switch-case', sub: 'Two tested programs, flowcharts, real output, dry run, common errors, exam questions', pages: 8 };
+function openCalc() { openReader({ file: CALC.file, title: CALC.title, sub: CALC.sub + ' · ' + CALC.pages + ' pages', course: 'scs1101', tag: 'm10' }); }
+function calcSpotlight() {
+  return el('section', { class: 'sec' }, el('div', { class: 'spot-new' },
+    el('span', { class: 'ic', 'aria-hidden': 'true' }, '{ }'),
+    el('div', {}, el('span', { class: 'chip new' }, 'NEW · SCS 1101'), el('h3', {}, CALC.title), el('p', {}, CALC.sub + ' · ' + CALC.pages + ' pages · Module 10')),
+    el('div', { class: 'acts' }, btn('Read', openCalc, 'primary', 'read'),
+      canSave() ? btn('PDF', () => saveFile(CALC.file, CALC.file.split('/').pop()), 'ghost', 'save') : null,
+      el('a', { class: 'btn ghost', href: CALC.code1, download: 'calc1.c' }, 'calc1.c'),
+      el('a', { class: 'btn ghost', href: CALC.code2, download: 'calc2.c' }, 'calc2.c'))));
+}
 const OUTLINE = { file: 'papers/SCS1101_Course_Outline.pdf', title: 'SCS 1101 course outline' };
 const MODULES = [
   { no: 1, wk: 1, t: 'Foundations of computer science & society', subs: ['1.1 Course introduction, materials and assessment', '1.2 The Information Society: computers in modern life', '1.3 History of computers: generations and evolution', '1.4 Data vs information'], notes: [] },
@@ -541,6 +561,7 @@ function renderHome(app) {
           STANDALONE || !cap.db ? null : el('span', { class: 'chip' }, n + (n === 1 ? ' post' : ' posts'))),
         el('span', { class: 'go' }, 'Open →'))));
   }
+  app.append(calcSpotlight());
   app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Courses in this phase'), el('p', {}, 'Tap a course to see its modules')), cs));
 
   const pack = el('div', { class: 'panel pack' },
@@ -605,6 +626,7 @@ function renderCourse(app, c) {
   setHero(...kids);
 
   if (c.full) {
+    app.append(calcSpotlight());
     const mods = el('div', { class: 'mods' });
     const maxN = Math.max(...MODULES.map(m => m.items.length));
     for (const m of MODULES) {
@@ -663,6 +685,12 @@ function fillLib(body) {
         p.book ? btn('Solutions', () => openBook(BOOKS[p.book - 1], 1), '', 'read') : null,
         canSave() ? btn('PDF', () => saveFile(p.file, p.file.split('/').pop()), 'ghost', 'save') : null)));
   } else {
+    body.append(el('div', { class: 'lrow hot' }, el('span', { class: 'n' }, 'NEW'),
+      el('div', {}, el('h3', {}, CALC.title), el('p', {}, CALC.sub + ' · ' + CALC.pages + ' pages')),
+      el('div', { class: 'acts' }, btn('Read', openCalc, 'primary', 'read'),
+        canSave() ? btn('PDF', () => saveFile(CALC.file, CALC.file.split('/').pop()), 'ghost', 'save') : null,
+        el('a', { class: 'btn ghost', href: CALC.code1, download: 'calc1.c' }, 'calc1.c'),
+        el('a', { class: 'btn ghost', href: CALC.code2, download: 'calc2.c' }, 'calc2.c'))));
     body.append(el('div', { class: 'lrow' }, el('span', { class: 'n doc' }, 'C'),
       el('div', {}, el('h3', {}, NOTES.title), el('p', {}, 'Explained like you are five, with MIT and arXiv sources, worked questions, flowcharts, a practice paper and a 5-week plan · 45 pages')),
       el('div', { class: 'acts' }, btn('Read', () => openReader({ file: NOTES.file, title: NOTES.title, sub: '45 pages', docx: NOTES.docx, course: 'scs1101', tag: 'general' }), 'primary', 'read'),
@@ -692,6 +720,7 @@ function renderModule(app, c, m) {
   if (m.notes.length) for (const [t, pg] of m.notes) notes.append(el('button', { class: 'li', type: 'button', onclick: () => openReader({ file: NOTES.file, title: NOTES.title, sub: t, docx: NOTES.docx, course: 'scs1101', tag: 'm' + m.no, page: pg }) }, el('span', { class: 'k' }, 'Notes'), el('span', { class: 't' }, t), el('span', { class: 'pg' }, 'p. ' + pg)));
   else notes.append(el('div', { class: 'empty' }, 'This is a theory module. The C notes focus on programming, so learn it from the past-exam answers on the right; each one is written as a model answer with marks.'));
   left.append(el('div', { class: 'sec-h' }, el('h2', {}, 'Read in the notes')), notes);
+  if (m.no === 10) left.append(el('div', { class: 'panel list' }, el('button', { class: 'li', type: 'button', onclick: openCalc }, el('span', { class: 'k' }, 'NEW'), el('span', { class: 't' }, CALC.title + ' (switch-case)'), el('span', { class: 'pg' }, CALC.pages + ' pp'))));
   if (m.no === 11) left.append(el('div', { class: 'panel list' }, el('button', { class: 'li', type: 'button', onclick: () => openReader({ file: OUTLINE.file, title: OUTLINE.title, sub: 'Assessment and textbooks', course: 'scs1101', tag: 'm11', page: 4 }) }, el('span', { class: 'k' }, 'Outline'), el('span', { class: 't' }, 'Assessment dates, weights and textbooks'), el('span', { class: 'pg' }, 'p. 4'))));
 
   const right = el('div', { class: 'sec' });
