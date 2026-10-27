@@ -26,6 +26,7 @@ Every course and module page has its own comment thread, powered by [Utterances]
 | `books/` | 8 solution books (PDF) with tappable tabs and an index |
 | `word/` | The same 8 books, plus the C notes, as editable Word files |
 | `notes/` | C Programming Notes (PDF) and the Field Book cheat sheets (`fieldbook.html`) |
+| `notes/SCS1103_Operating_Systems_and_CPU_Scheduling_Whitepaper.pdf` | **New:** operating systems and CPU scheduling whitepaper (12 pages), SCS 1103 Nov 2024 paper answered |
 | `notes/SCS1101_Calculator_Switch_Case_in_C.pdf` | **New:** calculator in C using switch-case (8 pages), with source in `notes/code/` |
 | `notes/comm/` | TCW 1103 Communication Skills: four exam whitepapers (theory and people skills; writing, meetings and referencing; workplace, oral skills and exam spotter; letters and workplace documents with 22 model examples) |
 | `papers/` | The original question papers and the SCS 1101 course outline |

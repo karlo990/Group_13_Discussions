@@ -201,6 +201,11 @@ main > *, .sec > *, .two > * { min-width: 0; }
 .lrow:last-child { border-bottom: 0; }
 .lrow.hot { background: color-mix(in srgb, var(--gold) 12%, var(--surface, #fff)); box-shadow: inset 4px 0 0 var(--gold); }
 .lrow.hot .n { font-size: 13px; letter-spacing: .06em; background: var(--gold); color: #fff; }
+.spot-new.red { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 9%, var(--surface, #fff)); }
+.spot-new.red .ic { background: var(--danger); }
+.chip.new.red { background: var(--danger); }
+.lrow.hot.red { background: color-mix(in srgb, var(--danger) 9%, var(--surface, #fff)); box-shadow: inset 4px 0 0 var(--danger); }
+.lrow.hot.red .n { background: var(--danger); }
 .chip.new { background: var(--gold); color: #fff; border-color: transparent; font-weight: 800; letter-spacing: .04em; }
 .spot-new { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 18px; border-radius: 16px; border: 2px solid var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface, #fff)); }
 .spot-new .ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--gold); color: #fff; font-family: var(--f-mono); font-weight: 800; font-size: 18px; }
@@ -403,6 +408,15 @@ const BOOKS = DATA.books;
 const NOTES = { file: 'notes/C_Programming_Notes_SCS1101.pdf', docx: 'word/C_Programming_Notes_SCS1101.docx', title: 'C Programming Notes for SCS 1101', pages: 45 };
 const CALC = { file: 'notes/SCS1101_Calculator_Switch_Case_in_C.pdf', code1: 'notes/code/calc1.c', code2: 'notes/code/calc2.c', title: 'Calculator in C using switch-case', sub: 'Two tested programs, flowcharts, real output, dry run, common errors, exam questions', pages: 8 };
 function openCalc() { openReader({ file: CALC.file, title: CALC.title, sub: CALC.sub + ' · ' + CALC.pages + ' pages', course: 'scs1101', tag: 'm10' }); }
+const OSWP = { file: 'notes/SCS1103_Operating_Systems_and_CPU_Scheduling_Whitepaper.pdf', title: 'Operating Systems and CPU Scheduling', sub: 'FCFS, SJF, SRTF, Priority and Round Robin with 11 Gantt charts; deadlocks, paging; SCS 1103 Nov 2024 paper fully answered', pages: 12 };
+function openOS() { openReader({ file: OSWP.file, title: OSWP.title, sub: OSWP.sub + ' · ' + OSWP.pages + ' pages', course: 'scs1101', tag: 'm4' }); }
+function osSpotlight() {
+  return el('section', { class: 'sec' }, el('div', { class: 'spot-new red' },
+    el('span', { class: 'ic', 'aria-hidden': 'true' }, 'OS'),
+    el('div', {}, el('span', { class: 'chip new red' }, 'NEW · OPERATING SYSTEMS'), el('h3', {}, OSWP.title), el('p', {}, OSWP.sub + ' · ' + OSWP.pages + ' pages')),
+    el('div', { class: 'acts' }, btn('Read', openOS, 'primary', 'read'),
+      canSave() ? btn('PDF', () => saveFile(OSWP.file, OSWP.file.split('/').pop()), 'ghost', 'save') : null)));
+}
 function calcSpotlight() {
   return el('section', { class: 'sec' }, el('div', { class: 'spot-new' },
     el('span', { class: 'ic', 'aria-hidden': 'true' }, '{ }'),
@@ -561,6 +575,7 @@ function renderHome(app) {
           STANDALONE || !cap.db ? null : el('span', { class: 'chip' }, n + (n === 1 ? ' post' : ' posts'))),
         el('span', { class: 'go' }, 'Open →'))));
   }
+  app.append(osSpotlight());
   app.append(calcSpotlight());
   app.append(el('section', { class: 'sec' }, el('div', { class: 'sec-h' }, el('h2', {}, 'Courses in this phase'), el('p', {}, 'Tap a course to see its modules')), cs));
 
@@ -626,6 +641,7 @@ function renderCourse(app, c) {
   setHero(...kids);
 
   if (c.full) {
+    app.append(osSpotlight());
     app.append(calcSpotlight());
     const mods = el('div', { class: 'mods' });
     const maxN = Math.max(...MODULES.map(m => m.items.length));
@@ -685,6 +701,10 @@ function fillLib(body) {
         p.book ? btn('Solutions', () => openBook(BOOKS[p.book - 1], 1), '', 'read') : null,
         canSave() ? btn('PDF', () => saveFile(p.file, p.file.split('/').pop()), 'ghost', 'save') : null)));
   } else {
+    body.append(el('div', { class: 'lrow hot red' }, el('span', { class: 'n' }, 'NEW'),
+      el('div', {}, el('h3', {}, OSWP.title), el('p', {}, OSWP.sub + ' · ' + OSWP.pages + ' pages')),
+      el('div', { class: 'acts' }, btn('Read', openOS, 'primary', 'read'),
+        canSave() ? btn('PDF', () => saveFile(OSWP.file, OSWP.file.split('/').pop()), 'ghost', 'save') : null)));
     body.append(el('div', { class: 'lrow hot' }, el('span', { class: 'n' }, 'NEW'),
       el('div', {}, el('h3', {}, CALC.title), el('p', {}, CALC.sub + ' · ' + CALC.pages + ' pages')),
       el('div', { class: 'acts' }, btn('Read', openCalc, 'primary', 'read'),
@@ -720,6 +740,7 @@ function renderModule(app, c, m) {
   if (m.notes.length) for (const [t, pg] of m.notes) notes.append(el('button', { class: 'li', type: 'button', onclick: () => openReader({ file: NOTES.file, title: NOTES.title, sub: t, docx: NOTES.docx, course: 'scs1101', tag: 'm' + m.no, page: pg }) }, el('span', { class: 'k' }, 'Notes'), el('span', { class: 't' }, t), el('span', { class: 'pg' }, 'p. ' + pg)));
   else notes.append(el('div', { class: 'empty' }, 'This is a theory module. The C notes focus on programming, so learn it from the past-exam answers on the right; each one is written as a model answer with marks.'));
   left.append(el('div', { class: 'sec-h' }, el('h2', {}, 'Read in the notes')), notes);
+  if (m.no === 4) left.append(el('div', { class: 'panel list' }, el('button', { class: 'li', type: 'button', onclick: openOS, style: 'box-shadow: inset 4px 0 0 var(--danger)' }, el('span', { class: 'k', style: 'color: var(--danger)' }, 'NEW'), el('span', { class: 't' }, OSWP.title + ' whitepaper'), el('span', { class: 'pg' }, OSWP.pages + ' pp'))));
   if (m.no === 10) left.append(el('div', { class: 'panel list' }, el('button', { class: 'li', type: 'button', onclick: openCalc }, el('span', { class: 'k' }, 'NEW'), el('span', { class: 't' }, CALC.title + ' (switch-case)'), el('span', { class: 'pg' }, CALC.pages + ' pp'))));
   if (m.no === 11) left.append(el('div', { class: 'panel list' }, el('button', { class: 'li', type: 'button', onclick: () => openReader({ file: OUTLINE.file, title: OUTLINE.title, sub: 'Assessment and textbooks', course: 'scs1101', tag: 'm11', page: 4 }) }, el('span', { class: 'k' }, 'Outline'), el('span', { class: 't' }, 'Assessment dates, weights and textbooks'), el('span', { class: 'pg' }, 'p. 4'))));
 
